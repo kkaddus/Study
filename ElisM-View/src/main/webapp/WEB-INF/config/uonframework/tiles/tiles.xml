@@ -1,0 +1,160 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<!-- basic -->
+	<definition name="default-tiles" template="/WEB-INF/jsp/layout/default/layout.jsp">
+		<put-attribute name="title" value="UOnFramework WebSample" />
+		<put-attribute name="top" value="/WEB-INF/jsp/layout/default/top/top.jsp" />
+		<put-attribute name="header" value="/WEB-INF/jsp/layout/default/header/header.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/layout/default/footer/footer.jsp" />
+
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/css/default.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="*.df" extends="default-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.df" extends="default-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.df" extends="default-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+
+	<!-- contents -->
+	<definition name="contents-tiles" template="/WEB-INF/jsp/layout/contents/layout.jsp">
+		<put-attribute name="title" value="UOnFramework WebSample" />
+		<put-attribute name="top" value="/WEB-INF/jsp/layout/contents/top/top.jsp" />
+		<put-attribute name="header" value="/WEB-INF/jsp/layout/contents/header/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/jsp/layout/contents/left/left.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/layout/contents/footer/footer.jsp" />
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/css/default.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="*.sa" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title06.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.sa" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title06.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.sa" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title06.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="*/*/*/*.sa" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title06.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<definition name="*.si" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title01.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.si" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title01.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.si" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title01.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="*/*/*/*.si" extends="contents-tiles">
+		<put-attribute name="titleImage" value="/images/title_image/img_title01.gif" />
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<!-- UI SAMPLE -->
+	<definition name="uiSample-tiles" template="/WEB-INF/jsp/layout/uonsample/layout.jsp">
+		<put-attribute name="title" value="UOnFramework WebSample" />
+		<put-attribute name="header" value="/WEB-INF/jsp/layout/uonsample/header/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/jsp/layout/uonsample/left/left.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/layout/uonsample/footer/footer.jsp" />
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/lib/jquery/jquery-1.12.4.min.js" />
+			<add-attribute value="/lib/webshim/polyfiller.js" />
+			<add-attribute value="/lib/ix/ax5ui.all.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/lib/bootstrap/css/bootstrap.min.css" />
+			<add-attribute value="/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+			<add-attribute value="/lib/ix/ax5ui.all.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="*.us" extends="uiSample-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.us" extends="uiSample-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.us" extends="uiSample-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+
+
+	<!-- 판매상담 기본 -->
+	<definition name="manage-tiles" template="/WEB-INF/jsp/layout/manage/managelayout.jsp">
+		<put-attribute name="title" value="UOnFramework WebSample" />
+		<put-attribute name="header" value="/WEB-INF/jsp/layout/manage/header/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/jsp/layout/manage/left/left.jsp" />
+<!-- 		<put-attribute name="footer" value="/WEB-INF/jsp/layout/manage/footer/footer.jsp" /> -->
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/lib/jquery/jquery-1.12.4.min.js" />
+			<add-attribute value="/lib/webshim/polyfiller.js" />
+			<add-attribute value="/lib/jquery/jquery-ui.min.js" />
+			<add-attribute value="/lib/jquery/jquery.serializejson.min.js" />
+			<add-attribute value="/lib/fancytree/jquery.fancytree-all.js" />
+			<add-attribute value="/lib/ix/ax5ui.all.js" />
+			<add-attribute value="/lib/webshim/polyfiller.js" />
+			<add-attribute value="/lib/ix/ax5ui-uploader/dist/ax5uploader.js" />
+			<add-attribute value="/lib/ix/ax5ui-dialog/dist/ax5dialog.js" />
+			<add-attribute value="/lib/ix/ax5ui-uploader/dist/jquery-direct.min.js" />
+			<add-attribute value="/lib/ix/ax5ui-uploader/dist/jQuery.multifle.min.js" />
+			<add-attribute value="/js/EgovMainMenu.js" />
+		</put-list-attribute>
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/lib/bootstrap/css/bootstrap.min.css" />
+			<add-attribute value="/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+			<add-attribute value="/lib/ix/ax5ui.all.css" />
+			<add-attribute value="/lib/fancytree/skin-win8/ui.fancytree.css" />
+			<add-attribute value="/css/etland_main_sales.css" />
+		</put-list-attribute>
+	</definition>
+	<definition name="*.mg" extends="manage-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.mg" extends="manage-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.mg" extends="manage-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="*/*/*/*.mg" extends="manage-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<!-- 모달 기본 -->
+	<definition name="modal-tiles" template="/WEB-INF/jsp/layout/modal/modallayout.jsp">
+		<put-attribute name="title" value="UOnFramework WebSample" />
+	</definition>
+	<definition name="*.md" extends="modal-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*.md" extends="modal-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*.md" extends="modal-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="*/*/*/*.md" extends="modal-tiles">
+		<put-attribute name="contents" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+</tiles-definitions>

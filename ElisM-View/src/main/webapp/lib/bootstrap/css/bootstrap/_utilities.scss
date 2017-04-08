@@ -1,0 +1,310 @@
+//
+// Utility classes
+// --------------------------------------------------
+
+
+// Floats
+// -------------------------
+
+.clearfix {
+  @include clearfix;
+}
+.center-block {
+  @include center-block;
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
+
+
+// Toggling content
+// -------------------------
+
+// Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  @include text-hide;
+}
+
+
+// Hide from screenreaders and browsers
+//
+// Credit: HTML5 Boilerplate
+
+.hidden {
+  display: none !important;
+}
+
+
+// For Affix plugin
+// -------------------------
+
+.affix {
+  position: fixed;
+}
+.d-block{
+  display:block !important;
+}
+.d-inline-block{
+  display:inline-block !important;
+}
+.d-inline{
+  display:inline !important;
+}
+
+.table-full{
+  width:100% !important;
+}
+.table-auto{
+  width:auto !important;
+}
+.text-bold{
+  font-weight:bold !important;
+}
+.border-none{
+  border:0px !important;
+}
+.d-inline-block{
+  display:inline-block !important;
+}
+.v-align-top {
+  vertical-align: top !important;
+}
+.v-align-middle {
+  vertical-align: middle !important;
+}
+.v-align-bottom {
+  vertical-align: bottom !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.text-right {
+  text-align: right !important;
+}
+.float-right {
+  float: right !important;
+}
+.float-left {
+  float: left !important;
+}
+.clear-both {
+  clear: both;
+}
+.text-deactivated {
+  color: #d2cece;
+}
+.padding-h-none {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.padding-l-none {
+  padding-left: 0 !important;
+}
+.padding-r-none {
+  padding-right: 0 !important;
+}
+.padding-t-none {
+  padding-top: 0 !important;
+}
+.padding-b-none {
+  padding-bottom: 0 !important;
+}
+.padding-t-5 {
+  padding-top: 5px !important;
+}
+.padding-t-10 {
+  padding-top: 10px !important;
+}
+.padding-t-15 {
+  padding-top: 15px !important;
+}
+.padding-2 {
+  padding: 2px !important;
+}
+.padding-3 {
+  padding: 3px !important;
+}
+.padding-4 {
+  padding: 4px !important;
+}
+.padding-5 {
+  padding: 5px !important;
+}
+.padding-10 {
+  padding: 10px !important;
+}
+.padding-15 {
+  padding: 15px !important;
+}
+.padding-l-3 {
+  padding-left: 3px !important;
+}
+.padding-l-5 {
+  padding-left: 5px !important;
+}
+.padding-l-10 {
+  padding-left: 10px !important;
+}
+.padding-l-15 {
+  padding-left: 15px !important;
+}
+.padding-l-20 {
+  padding-left: 20px !important;
+}
+.padding-l-25 {
+  padding-left: 25px !important;
+}
+.padding-l-30 {
+  padding-left: 30px !important;
+}
+.padding-l-35 {
+  padding-left: 35px !important;
+}
+.padding-l-40 {
+  padding-left: 40px !important;
+}
+.padding-r-3 {
+  padding-right: 3px !important;
+}
+.padding-r-5 {
+  padding-right: 5px !important;
+}
+.padding-r-10 {
+  padding-right: 10px !important;
+}
+.padding-r-15 {
+  padding-right: 15px !important;
+}
+.padding-r-20 {
+  padding-right: 20px !important;
+}
+.padding-r-25 {
+  padding-right: 25px !important;
+}
+.padding-r-30 {
+  padding-right: 30px !important;
+}
+.padding-r-35 {
+  padding-right: 35px !important;
+}
+.padding-r-40 {
+  padding-right: 40px !important;
+}
+.padding-none {
+  padding: 0 !important;
+}
+.margin-none {
+  margin: 0 !important;
+}
+
+.margin-b-none {
+  margin-bottom: 0 !important;
+}
+.margin-b-5 {
+  margin-bottom: 5px !important;
+}
+.margin-b-10 {
+  margin-bottom: 10px !important;
+}
+.margin-b-15 {
+  margin-bottom: 15px !important;
+}
+.margin-b-20 {
+  margin-bottom: 20px !important;
+}
+.margin-b-25 {
+  margin-bottom: 25px !important;
+}
+.margin-b-30 {
+  margin-bottom: 30px !important;
+}
+.margin-t-none {
+  margin-top: 0 !important;
+}
+.margin-t--1 {
+  margin-top: -1px !important;
+}
+.margin-t--2 {
+  margin-top: -2px !important;
+}
+.margin-t--3 {
+  margin-top: -3px !important;
+}
+.margin-t-1 {
+  margin-top: 1px !important;
+}
+.margin-t-2 {
+  margin-top: 2px !important;
+}
+.margin-t-3 {
+  margin-top: 3px !important;
+}
+.margin-t-4 {
+  margin-top: 4px !important;
+}
+.margin-t-5 {
+  margin-top: 5px !important;
+}
+.margin-t-10 {
+  margin-top: 10px !important;
+}
+.margin-t-15 {
+  margin-top: 15px !important;
+}
+.margin-t-20 {
+  margin-top: 20px !important;
+}
+.margin-t-25 {
+  margin-top: 25px !important;
+}
+.margin-t-30 {
+  margin-top: 30px !important;
+}
+.margin-l-none {
+  margin-left: 0 !important;
+}
+
+.margin-l-5 {
+  margin-left: 5px !important;
+}
+.margin-l-10 {
+  margin-left: 10px !important;
+}
+.margin-l-15 {
+  margin-left: 15px !important;
+}
+.margin-r-none {
+  margin-right: 0 !important;
+}
+.margin-r-5 {
+  margin-right: 5px !important;
+}
+.margin-r-10 {
+  margin-right: 10px !important;
+}
+.margin-r-15 {
+  margin-right: 15px !important;
+}
+.divider-blank{
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.rotate-90{
+  transform : rotate(-90deg) scale(.86);
+  -ms-transform : rotate(-90deg) scale(.86);
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+        <RollingFile name="applicationInfoFile" fileName="C:/logs/UOnWebSample/log.log" filePattern="C:/logs/UOnWebSample/log_%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<pattern>%d %5p [%c] %m%n</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="java.sql" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="egovframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+          <!-- log SQL with timing information, post execution -->
+        <Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="com.dkunc" level="trace" additivity="false">
+			<AppenderRef ref="console" />
+			<!-- <AppenderRef ref="applicationInfoFile" /> -->
+		</Logger>
+        <Root level="ERROR">
+            <AppenderRef ref="console" />
+            <!-- <AppenderRef ref="applicationInfoFile" /> -->
+        </Root>
+    </Loggers>
+</Configuration>
+

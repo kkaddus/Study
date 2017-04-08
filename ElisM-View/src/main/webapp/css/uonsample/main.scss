@@ -1,0 +1,340 @@
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+$gray-base:              #242329 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-light:             lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+
+$brand-primary:         #00b2ff !default; // #337ab7
+$brand-success:         #23cf96 !default;
+$brand-info:            #925eff !default;
+$brand-warning:         #ffb000 !default;
+$brand-danger:          #fc614c !default;
+$brand-grey:            #424e63 !default;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               #fff !default;
+//** Global text color on `<body>`.
+$text-color:            $gray-dark !default;
+
+//** Global textual link color.
+$link-color:            $brand-primary !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
+
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-base:        $font-family-sans-serif !default;
+
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
+$font-size-xs:         ceil(($font-size-base * 0.85)) !default; // ~12px
+$font-size-mini:          11px !default;
+
+$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:            $font-size-base !default;
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+//** By default, this inherits from the `<body>`.
+$headings-font-family:    inherit !default;
+$headings-font-weight:    500 !default;
+$headings-line-height:    1.1 !default;
+$headings-color:          inherit !default;
+
+
+.main-layout-header{
+  padding:0 10px;
+}
+
+html.ui-layout, body.ui-layout{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow:hidden;
+  .ui-layout-content{
+    overflow:auto;
+  }
+}
+
+body>[data-ax5layout] {
+    position: absolute;
+    top:0;left:0;
+    right:0;bottom:0;
+    width:100%;
+    border: 0px none;
+}
+
+body>[data-ax5layout] > [data-dock-panel].dock-panel-left {
+    left: 0px;
+    top: 41px;
+    width:250px;
+    height: 100%;
+}
+
+.ax-mask.danger .ax-mask-bg {
+    /* prepare mask theme */
+    background: #7a0000;
+}
+
+
+.heading{
+  margin-bottom:20px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+
+.panel{
+  & > .panel-heading > .panel-title{
+    font-weight:bold;
+  }
+  & > .panel-body{
+    padding:10px;
+    background:#c9d7df;
+  }
+  &.panel-default{
+    border-color: #b5c9da;
+      &>.panel-heading {
+      background-image: -webkit-linear-gradient(top,#a0bcd6  0,#869abf  100%);
+      background-image: -o-linear-gradient(top,#a0bcd6  0,#869abf  100%);
+      background-image: linear-gradient(to bottom,#6480b5   0,#a0bcd6  100%);
+      background-repeat: repeat-x;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cedce9',endColorstr='#cedce9',GradientType=0);
+      border-color: #9fafce;
+      color:#fff;
+        .panel-title{
+          display:inline-block;
+        }
+      }
+      & > .panel-body{
+        padding:10px;
+        border-color: #b5c9da;
+        background:#576e7b;
+      }
+    }
+  .panel{
+    margin-bottom:0;
+    &.panel-default{
+      border-color: #b5c9da;
+      &>.panel-heading {
+      background-image: -webkit-linear-gradient(top,#e6f0fa 0,#d7e7f6 100%);
+      background-image: -o-linear-gradient(top,#e6f0fa 0,#d7e7f6 100%);
+      background-image: linear-gradient(to bottom,#d7e7f6 0,#e6f0fa 100%);
+      background-repeat: repeat-x;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cedce9',endColorstr='#cedce9',GradientType=0);
+      border-color: #e0ecf6;
+      color:#4b566b;
+      }
+      &>.panel-body {
+      border-color: #b5c9da;
+      }
+    }
+    & > .panel-heading  {
+      padding:5px 10px ;
+
+      & > .panel-title{
+
+        font-size:12px;
+        font-weight:bold;
+      }
+    }
+    & > .panel-body{
+      padding:10px;
+        background:white;
+    }
+  }
+}
+[data-ax5layout]{
+& > [data-dock-panel].main-layout-header{
+  display:block;
+  width: 100%;
+  border-bottom:1px #d5dded solid;
+  &.dock-panel-top{
+    display:block;
+    border-bottom:0;
+  }
+  h4{
+    display:inline-block;
+    font-size:16px;
+    font-weight:bold;
+    span{
+      color:#42befc;
+    }
+  }
+}
+& > [data-dock-panel].main-layout-left{
+  border-right:1px #d5dded solid;
+  &.dock-panel-left{
+  }
+}
+}
+
+.logo{
+  display:inline-block;
+  height:35px;
+  margin-top:-3px;
+}
+
+.dock-panel-bottom{
+  padding-top:3px;
+  background-image: -webkit-linear-gradient(top,#e6f0fa 0,#d7e7f6 100%);
+  background-image: -o-linear-gradient(top,#e6f0fa 0,#d7e7f6 100%);
+  background-image: linear-gradient(to bottom,#d7e7f6 0,#e6f0fa 100%);
+  font-size:11px;
+
+}
+
+
+.side-menu{
+  ul{
+    list-style:none;
+    padding-left:0;
+  }
+  & > nav > ul{
+    margin-left:0;
+    padding-left:0;
+    label{
+      margin-bottom:0;
+    }
+  }
+}
+
+.nav a, .nav label {
+  display: block;
+ padding: .85rem;
+  color: $text-color;
+  background-color: #ffffff;
+  box-shadow: inset 0 -1px #c1c4cc;
+  -webkit-transition: background-image .25s ease-in;
+  transition: background-image .25s ease-in;
+}
+
+.nav a:focus, .nav a:hover, .nav label:focus, .nav label:hover {
+  color: white;
+  text-shadow: 0 -1px 0 #008ecc;
+  background-image: -webkit-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: -o-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: linear-gradient(to bottom,#00b2ff 0,#0097d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00B2FF',endColorstr='#FF0097D9',GradientType=0);
+  border-color: #0097d9;
+}
+
+.nav label { cursor: pointer; }
+
+/**
+ * Styling first level lists items
+ */
+
+.group-list a, .group-list label {
+  padding-left: 2rem;
+  background: #ececf6;
+  box-shadow: inset 0 -1px #dce0e9;
+}
+
+.group-list a:focus, .group-list a:hover, .group-list label:focus, .group-list label:hover {
+  background-image: -webkit-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: -o-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: linear-gradient(to bottom,#00b2ff 0,#0097d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00B2FF',endColorstr='#FF0097D9',GradientType=0);
+  border-color: #0097d9;
+ }
+
+/**
+ * Styling second level list items
+ */
+
+.sub-group-list a, .sub-group-list label {
+  padding-left: 4rem;
+  background: #d2d8e3;
+  box-shadow: inset 0 -1px #b2b8c8;
+}
+
+.sub-group-list a:focus, .sub-group-list a:hover, .sub-group-list label:focus, .sub-group-list label:hover {
+  background-image: -webkit-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: -o-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: linear-gradient(to bottom,#00b2ff 0,#0097d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00B2FF',endColorstr='#FF0097D9',GradientType=0);
+  border-color: #0097d9;
+}
+
+/**
+ * Styling third level list items
+ */
+
+.sub-sub-group-list a, .sub-sub-group-list label {
+  padding-left: 6rem;
+  background: #c2cad7;
+  box-shadow: inset 0 -1px #b2b8c8;
+}
+
+.sub-sub-group-list a:focus, .sub-sub-group-list a:hover, .sub-sub-group-list label:focus, .sub-sub-group-list label:hover {
+  background-image: -webkit-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: -o-linear-gradient(top,#00b2ff 0,#0097d9 100%);
+  background-image: linear-gradient(to bottom,#00b2ff 0,#0097d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00B2FF',endColorstr='#FF0097D9',GradientType=0);
+  border-color: #0097d9;
+ }
+
+/**
+ * Hide nested lists
+ */
+
+.group-list, .sub-group-list, .sub-sub-group-list {
+  height: 100%;
+  max-height: 0;
+  overflow: hidden;
+  -webkit-transition: max-height .5s ease-in-out;
+  transition: max-height .5s ease-in-out;
+}
+
+.nav__list input[type=checkbox]:checked + label + ul { /* reset the height when checkbox is checked */
+max-height: 1000px; }
+
+/**
+ * Rotating chevron icon
+ */
+
+label > span {
+  float: right;
+  -webkit-transition: -webkit-transform .65s ease;
+  transition: transform .65s ease;
+}
+
+.nav__list input[type=checkbox]:checked + label > span {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
