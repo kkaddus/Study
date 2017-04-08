@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.rol.mapper.RoleHierarchyWriteMapper">
+
+	<sql id="where-key">
+		WHERE
+		PARENT_ROLE = #{parentRole}
+		AND CHILDREN_ROLE = #{childrenRole}
+	</sql>
+	<sql id="where-models">
+		<if test="parentRole != null and parentRole != ''">
+			AND PARENT_ROLE = #{parentRole}
+		</if>
+		<if test="childrenRole != null and childrenRole != ''">
+			AND CHILDREN_ROLE = #{childrenRole}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+	</sql>
+	<sql id="insert-value">
+	</sql>
+	<sql id="update-condition">
+		<if test="assignParameters.contains('parentRole')">
+			PARENT_ROLE = #{parentRole},
+		</if>
+		<if test="assignParameters.contains('childrenRole')">
+			CHILDREN_ROLE = #{childrenRole},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertRoleHierarchy" parameterType="roleHierarchyVO" >
+			INSERT INTO T_ROLE_HIERARCHY
+			(
+				PARENT_ROLE
+				, CHILDREN_ROLE
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{parentRole}
+				, #{childrenRole}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateRoleHierarchy" parameterType="roleHierarchyVO">
+		UPDATE T_ROLE_HIERARCHY
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteRoleHierarchy" parameterType="roleHierarchyVO">
+		DELETE T_ROLE_HIERARCHY
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+	<select id="selectRoleHierarchy" parameterType="roleHierarchyVO" resultType="roleHierarchyVO">
+		SELECT
+			*
+		FROM T_ROLE_HIERARCHY
+		<include refid="where-key" />
+	</select>
+</mapper>

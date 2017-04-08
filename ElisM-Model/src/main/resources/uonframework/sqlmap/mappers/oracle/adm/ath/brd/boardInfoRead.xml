@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.brd.mapper.BoardInfoReadMapper">
+	<select id="selectBoardList" parameterType="searchUserVO" resultType="boardInfoVO">
+		SELECT * 
+		FROM T_BOARD
+		WHERE 1=1
+		<if test="searchCondition != ''" >
+			<if test="searchCondition == 'tUid'" >
+            	AND T_UID = TO_NUMBER(#{searchKeyword})
+            </if>
+			<if test="searchCondition == 'USER_NM'" >
+            	AND USER_NM LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+			<if test="searchCondition == 'EMAIL'" >
+            	AND EMAIL LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+        </if>
+    </select>
+
+    <select id="selectBoardListTotCnt" parameterType="searchUserVO" resultType="int">
+            SELECT COUNT(1) totcnt
+            FROM   T_BOARD
+            <if test="searchCondition != ''" >
+				<if test="searchCondition == 'tUid'" >
+	            	AND T_UID = TO_NUMBER(#{searchKeyword})
+	            </if>
+				<if test="searchCondition == 'USER_NM'" >
+	            	AND USER_NM LIKE '%' ||#{searchKeyword}|| '%'
+	            </if>
+				<if test="searchCondition == 'EMAIL'" >
+	            	AND EMAIL LIKE '%' ||#{searchKeyword}|| '%'
+	            </if>
+	        </if>
+    </select>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.rol.mapper.UserRoleWriteMapper">
+
+	<sql id="where-key">
+		WHERE
+		ROLE_CD = #{roleCd}
+		AND TARGET_ID = #{targetId}
+		AND TARGET_TYPE = #{targetType}
+	</sql>
+	<sql id="where-models">
+		<if test="roleCd != null and roleCd != ''">
+			AND ROLE_CD = #{roleCd}
+		</if>
+		<if test="targetId != null and targetId != ''">
+			AND TARGET_ID = #{targetId}
+		</if>
+		<if test="targetType != null and targetType != ''">
+			AND TARGET_TYPE = #{targetType}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+	</sql>
+	<sql id="insert-value">
+	</sql>
+	<sql id="update-condition">
+		<if test="assignParameters.contains('roleCd')">
+			ROLE_CD = #{roleCd},
+		</if>
+		<if test="assignParameters.contains('targetId')">
+			TARGET_ID = #{targetId},
+		</if>
+		<if test="assignParameters.contains('targetType')">
+			TARGET_TYPE = #{targetType},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertUserRole" parameterType="userRoleVO" >
+			INSERT INTO T_USER_ROLE
+			(
+				ROLE_CD
+				, TARGET_ID
+				, TARGET_TYPE
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{roleCd}
+				, #{targetId}
+				, #{targetType}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateUserRole" parameterType="userRoleVO">
+		UPDATE T_USER_ROLE
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteUserRole" parameterType="userRoleVO">
+		DELETE T_USER_ROLE
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+	<select id="selectUserRole" parameterType="userRoleVO" resultType="userRoleVO">
+		SELECT
+			*
+		FROM T_USER_ROLE
+		<include refid="where-key" />
+	</select>
+</mapper>

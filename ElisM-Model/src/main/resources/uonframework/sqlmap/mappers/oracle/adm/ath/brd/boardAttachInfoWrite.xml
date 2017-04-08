@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.brd.mapper.BoardAttachInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE FILE_INDEX = #{fileIndex}
+	</sql>
+	<sql id="where-models">
+	    <if test="boardNo != null and boardNo != ''">
+			AND BOARD_NO = #{boardNo}
+		</if>
+		<if test="fileIndex != null and fileIndex != 0">
+			AND FILE_INDEX = #{fileIndex}
+		</if>
+		<if test="fileSize != null and fileSize != 0">
+			AND FILE_SIZE = #{fileSize}
+		</if>
+		<if test="fileType != null and fileType != 0">
+			AND FILE_TYPE = #{fileType}
+		</if>
+		<if test="fileName != null and fileName != ''">
+			AND FILE_NAME = #{fileName}
+		</if>
+		<if test="filePath != null and filePath != 0">
+			AND FILE_PATH = #{filePath}
+		</if>
+		<if test="folderName != null and folderName != ''">
+			AND FOLDER_NAME = #{folderName}
+		</if>
+		<if test="deleteFlag != null and deleteFlag != ''">
+			AND DELETE_FLAG = #{deleteFlag}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<!-- <if test="assignParameters.contains('fileIndex')">
+			, FILE_INDEX
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			, BOARD_NO
+		</if>
+		<if test="assignParameters.contains('fileSize')">
+			, FILE_SIZE
+		</if>
+		<if test="assignParameters.contains('fileType')">
+			, FILE_TYPE
+		</if>
+		<if test="assignParameters.contains('fileName')">
+			, FILE_NAME
+		</if>
+		<if test="assignParameters.contains('filePath')">
+			, FILE_PATH
+		</if>
+		<if test="assignParameters.contains('folderName')">
+			, FOLDER_NAME
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			, DELETE_FLAG
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<!-- <if test="assignParameters.contains('fileIndex')">
+			, #{fileIndex}
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			, #{boardNo}
+		</if>
+		<if test="assignParameters.contains('fileSize')">
+			, #{fileSize}
+		</if>
+		<if test="assignParameters.contains('fileType')">
+			, #{fileType}
+		</if>
+		<if test="assignParameters.contains('fileName')">
+			, #{fileName}
+		</if>
+		<if test="assignParameters.contains('filePath')">
+			, #{filePath}
+		</if>
+		<if test="assignParameters.contains('folderName')">
+			, #{folderName}
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			, #{deleteFlag}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('fileIndex')">
+			, FILE_INDEX = #{fileIndex}
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			BOARD_NO = #{boardNo},
+		</if>
+		<if test="assignParameters.contains('fileSize')">
+			FILE_SIZE = #{fileSize},
+		</if>
+		<if test="assignParameters.contains('fileType')">
+			FILE_TYPE = #{fileType},
+		</if>
+		<if test="assignParameters.contains('fileName')">
+			FILE_NAME = #{fileName},
+		</if>
+		<if test="assignParameters.contains('filePath')">
+			FILE_PATH = #{filePath},
+		</if>
+		<if test="assignParameters.contains('folderName')">
+			FOLDER_NAME = #{folderName},
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			DELETE_FLAG = #{deleteFlag},
+		</if>
+	</sql>
+
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertBoardAttachInfo" parameterType="boardAttachInfoVO" >
+		<selectKey order="BEFORE" keyProperty="fileIndex" resultType="int">
+			SELECT SEQ_BOARD_INFO_T_UID.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO T_BOARD_FILE
+			(
+				FILE_INDEX
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{fileIndex}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateBoardAttachInfo" parameterType="boardAttachInfoVO">
+		UPDATE T_BOARD_FILE
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteBoardAttachInfo" parameterType="boardAttachInfoVO">
+		DELETE T_BOARD_FILE
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+</mapper>

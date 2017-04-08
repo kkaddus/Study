@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.let.sec.rmt.mapper.RoleManageMapper">
+	<resultMap id="role" type="com.dkunc.let.sec.rmt.service.RoleManageVO">
+        <result property="roleCode" column="ROLE_CODE" />
+        <result property="roleNm" column="ROLE_NM" />
+        <result property="rolePtn" column="ROLE_PTTRN" />
+        <result property="roleDc" column="ROLE_DC" />
+        <result property="roleTyp" column="ROLE_TY" />
+        <result property="roleSort" column="ROLE_SORT" />
+        <result property="roleCreatDe" column="ROLE_CREAT_DE" />
+    </resultMap>
+	<select id="selectRole" resultMap="role">
+        <![CDATA[
+            SELECT ROLE_CODE,
+                   ROLE_NM,
+                   ROLE_PTTRN,
+                   ROLE_DC,
+                   ROLE_TY,
+                   ROLE_SORT,
+                   ROLE_CREAT_DE
+              FROM AUTH_CODE
+             WHERE ROLE_CODE = #{roleCode}
+        ]]>
+    </select>
+
+    <select id="selectRoleList" parameterType="roleManageVO" resultMap="role">
+        <![CDATA[
+            SELECT  *
+              FROM  (
+            SELECT ROWNUM RNUM, ALL_LIST.*
+              FROM  (
+
+            SELECT ROLE_CODE,
+                   ROLE_NM,
+                   ROLE_PTTRN,
+                   ROLE_DC,
+                   (SELECT CODE_NM
+                      FROM CMM_CODE_DETAIL
+                     WHERE CODE_ID = 'COM029'
+                       AND CODE = ROLE_TY) AS ROLE_TY,
+                   ROLE_SORT,
+                   ROLE_CREAT_DE
+              FROM AUTH_CODE
+             WHERE 1=1
+        ]]>
+            <if test="searchCondition == 1" >
+                AND ROLE_NM LIKE '%'||#{searchKeyword}||'%'
+            </if>
+        <![CDATA[
+            ORDER BY ROLE_CREAT_DE DESC
+
+                    ) ALL_LIST
+                    )
+             WHERE  RNUM  > #{firstIndex}
+               AND  RNUM <= #{firstIndex} + #{recordCountPerPage}
+        ]]>
+    </select>
+
+    <select id="selectRoleListTotCnt" parameterType="roleManageVO" resultType="int">
+            SELECT COUNT(*) totcnt
+            FROM AUTH_CODE
+            WHERE 1=1
+            <if test="searchCondition == 1" >
+                AND ROLE_NM LIKE '%'||#{searchKeyword}||'%'
+            </if>
+    </select>
+
+    <insert id="insertRole" parameterType="roleManage">
+        <![CDATA[
+            INSERT INTO AUTH_CODE
+                  ( ROLE_CODE
+                  , ROLE_NM
+                  , ROLE_PTTRN
+                  , ROLE_DC
+                  , ROLE_TY
+                  , ROLE_SORT
+                  , ROLE_CREAT_DE )
+           VALUES ( #{roleCode}
+                  , #{roleNm}
+                  , #{rolePtn}
+                  , #{roleDc}
+                  , #{roleTyp}
+                  , #{roleSort}
+                  , SYSDATE)
+        ]]>
+    </insert>
+
+    <update id="updateRole" parameterType="roleManage">
+        <![CDATA[
+            UPDATE AUTH_CODE
+               SET ROLE_NM=#{roleNm}
+                 , ROLE_PTTRN=#{rolePtn}
+                 , ROLE_DC=#{roleDc}
+                 , ROLE_TY=#{roleTyp}
+                 , ROLE_SORT=#{roleSort}
+                 , ROLE_CREAT_DE=SYSDATE
+             WHERE ROLE_CODE=#{roleCode}
+        ]]>
+    </update>
+
+    <delete id="deleteRole">
+        <![CDATA[
+            DELETE FROM AUTH_CODE
+             WHERE ROLE_CODE=#{roleCode}
+        ]]>
+    </delete>
+
+    <select id="selectAuthorListTotCnt" parameterType="roleManageVO" resultType="int">
+
+            SELECT COUNT(*) totcnt
+            FROM AUTH_CODE
+            WHERE 1=1
+            <if test="searchCondition == 1" >
+                AND ROLE_NM LIKE '%'||#{searchKeyword}||'%'
+            </if>
+    </select>
+
+    <select id="selectRoleAllList" parameterType="roleManageVO" resultMap="role">
+            SELECT ROLE_CODE, ROLE_NM, ROLE_PTTRN, ROLE_DC, ROLE_TY, ROLE_SORT, ROLE_CREAT_DE
+              FROM AUTH_CODE
+    </select>
+</mapper>

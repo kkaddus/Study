@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.cmn.tre.mapper.CommonMapper">
+	<select id="selectDeptInfolazyTree" parameterType="searchDeptVO" resultType="egovMap">
+		SELECT
+			DEPT_CD, 
+			DEPT_NM, 
+			REMARK, 
+			UP_DEPT_CD, 
+			(SELECT DEPT_NM FROM T_DEPT_INFO WHERE USAGE_YN = 'Y' AND DEPT_CD = A.UP_DEPT_CD ) UP_DEPT_NM,
+			USAGE_YN, 
+			CREATE_ID, 
+			TO_CHAR(CREATE_DT, 'YYYY-MM-DD') CREATE_DT, 
+			UPDATE_ID, 
+			TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') UPDATE_DT, 
+			COMPANY_CD,
+			(SELECT DEPT_NM FROM T_DEPT_INFO WHERE USAGE_YN = 'Y' AND DEPT_CD = #{companyCd} ) COMPANY_NM
+	    FROM
+	    	T_DEPT_INFO A
+	    WHERE
+	    	USAGE_YN = 'Y'
+	    	AND COMPANY_CD = #{companyCd}
+	        AND UP_DEPT_CD = #{deptCd}	
+        ORDER BY DEPT_CD
+    </select>
+    
+    <select id="selectUserInfolazyTree" parameterType="userInfoVO" resultType="egovMap">
+        <![CDATA[
+            SELECT
+					USER_ID										userId,
+					USER_NM										userNm,
+					PWD											pwd,
+					PWD_HINT									pwdHint,
+					fn_cmmCodeIdToCodeNm('COM022', PWD_HINT)    pwdHintNm,
+					PWD_CNSR									pwdCnsr,
+					JOB_CD										jobCd,
+					fn_cmmCodeIdToCodeNm('LEV000', JOB_CD)		jobNm,
+					POSITION_CD									positionCd,
+					fn_cmmCodeIdToCodeNm('POS000', POSITION_CD)	positionNm,
+					TITLE_CD									titleCd,
+					fn_cmmCodeIdToCodeNm('TIT000', TITLE_CD)	titleNm,
+					EMP_NO										empNo,
+					TO_CHAR(HIRE_DT, 'YYYY-MM-DD')				hireDt,
+					TO_CHAR(PROMOTION_DT, 'YYYY-MM-DD')			promotionDt,
+					DEPT_CD										deptCd,
+					DEPT_NM										deptNm,
+					COMPANY_CD									companyCd,
+					EMAIL										email,
+					ZIP_CD										zipCd,
+					ADR1										adr1,
+					ADR2										adr2,
+					ADR3										adr3,
+					MOBILE_NO									mobileNo,
+					TEL_NO										telNo,
+					COM_TEL_NO									comTelNo,
+					FAX_NO										faxNo,
+					USER_ORDER									userOrder,
+					USAGE_YN									usageYn,
+					fn_cmmCodeIdToCodeNm('USA000', USAGE_YN)	usageYnNm,
+					USER_ST										userSt,
+					fn_cmmCodeIdToCodeNm('COM013', USER_ST)		userStNm,
+					TO_CHAR(CREATE_DT, 'YYYY-MM-DD')			createDt,
+					CREATE_ID									createId,
+					TO_CHAR(UPDATE_DT, 'YYYY-MM-DD')			updateDt,
+					UPDATE_ID									updateId
+            FROM	T_USER_INFO
+            WHERE	USAGE_YN = 'Y' AND DEPT_CD = #{deptCd}
+            ORDER BY JOB_CD, USER_NM
+        ]]>
+    </select>
+    
+	<select id="selectMenuInfolazyTree" parameterType="searchMenuVO" resultType="egovMap">
+		SELECT
+			MENU_ID, 
+			MENU_NM, 
+			PARENT_MENU_ID, 
+			(SELECT MENU_NM FROM T_MENU_INFO WHERE MENU_ID = A.PARENT_MENU_ID ) PARENT_MENU_NM,
+			CREATE_ID, 
+			TO_CHAR(CREATE_DT, 'YYYY-MM-DD') CREATE_DT, 
+			UPDATE_ID, 
+			TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') UPDATE_DT
+	    FROM
+	    	T_MENU_INFO A
+	    WHERE	1=1
+	    	<if test="menuId == 0 and parentMenuId == 9999999" >
+	            AND MENU_ID = 0 AND PARENT_MENU_ID = 9999999
+	        </if>
+	    	<if test="menuId != 0 and parentMenuId == 9999999" >
+	            AND MENU_ID != 0 AND PARENT_MENU_ID = 9999999
+	        </if>
+	    	<if test="menuId != 0 and parentMenuId != 9999999" >
+	            AND PARENT_MENU_ID = #{parentMenuId} 
+	        </if>
+        ORDER BY PARENT_MENU_ID, MENU_ID
+    </select>
+    
+	<select id="selectRoleMenuInfoTree" parameterType="hashMap" resultType="egovMap">
+		SELECT
+				A.MENU_ID AS menuId,
+				A.MENU_NM AS menuNm,
+				A.PARENT_MENU_ID AS parentMenuId,
+				A.MENU_ORDER AS menuOrder,
+				B.MENU_ID AS roleMenuId,
+				B.ROLE_CD AS roleCd,
+		      	(SELECT COUNT(*)-1 FROM T_MENU_INFO
+				 START WITH MENU_ID = A.MENU_ID
+				 CONNECT BY PRIOR MENU_ID = PARENT_MENU_ID) as menuCnt,
+			    (SELECT CASE WHEN COUNT(*) > 0 THEN COUNT(*)-1 ELSE COUNT(*) END FROM T_MENU_ROLE WHERE MENU_ID IN ((SELECT MENU_ID
+			     FROM T_MENU_INFO
+				 START WITH MENU_ID = A.MENU_ID
+				 CONNECT BY PRIOR MENU_ID = PARENT_MENU_ID)) AND ROLE_CD=#{roleCd}) as authCnt
+		FROM	T_MENU_INFO A, T_MENU_ROLE B
+		WHERE	A.USAGE_YN='Y' AND A.MENU_ID = B.MENU_ID(+)
+		      	AND B.ROLE_CD(+) = #{roleCd}
+		ORDER BY A.MENU_ID, A.PARENT_MENU_ID
+    </select>
+    
+    <select id="selectMyRoleMenu" parameterType="hashMap" resultType="egovMap">
+		SELECT C.MENU_ID,
+		  C.MENU_NM,
+		  C.MENU_URL,
+		  C.PARENT_MENU_ID,
+		  C.MENU_ORDER
+		FROM T_USER_ROLE A,
+		  T_MENU_ROLE B, 
+		  T_MENU_INFO C  
+		WHERE A.ROLE_CD = B.ROLE_CD
+		AND TARGET_ID = #{userId}
+		AND  B.MENU_ID = C.MENU_ID
+		GROUP BY C.MENU_ID, C.MENU_NM, C.MENU_URL,  C.PARENT_MENU_ID, C.MENU_ORDER
+		ORDER BY C.MENU_ID, C.MENU_ORDER
+    </select>
+</mapper>

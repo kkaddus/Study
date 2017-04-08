@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:egov-security="http://www.egovframe.go.kr/schema/egov-security"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.egovframe.go.kr/schema/egov-security http://www.egovframe.go.kr/schema/egov-security/egov-security-3.0.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <!-- loaded by 'EgovSecurityConfigInitializerBeanDefinitionParser' BeanDefinitionParser  -->
+    <!-- import resource="classpath*:/META-INF/spring/security/security-*.xml" /-->
+
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/images/**" security="none"/>
+    <security:http pattern="/img/**" security="none"/>
+    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
+
+    <egov-security:config id="securityConfig"
+        loginUrl="/index.do"
+        logoutSuccessUrl="/index.do"
+        loginFailureUrl="/index.do?login_error=1"
+        accessDeniedUrl="/accessDenied.do"
+
+        dataSource="dataSource"
+        jdbcUsersByUsernameQuery="SELECT USER_ID, PWD AS PASSWORD, 1 ENABLED, USER_NM, EMAIL FROM T_USER_INFO WHERE USER_ID = ?"
+        jdbcAuthoritiesByUsernameQuery="SELECT * FROM TABLE(tb_fc_getUserRole(?))"
+        jdbcMapClass="com.dkunc.cmn.mapper.EgovSessionMapping"
+
+        requestMatcherType="regex"
+        hash="plaintext"
+
+    />
+    <!-- jdbcAuthoritiesByUsernameQuery="variable cur REFCURSOR;variable v1 varchar2;exec :v1:='admin';exec PROCEDURE_EXAMPLE.FIND_TEST_LIST(:v1, :cur);" -->
+    <!-- <egov-security:config id="securityConfig"
+        loginUrl="/uat/uia/actionMain.do"
+        logoutSuccessUrl="/uat/uia/actionMain.do"
+        loginFailureUrl="/uat/uia/actionSecurityLogin.do?login_error=1"
+        accessDeniedUrl="/sec/ram/accessDenied.do"
+
+        dataSource="dataSource"
+        jdbcUsersByUsernameQuery="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, USER_ZIP, USER_ADRES, USER_EMAIL, USER_SE,  '-' ORGNZT_ID, ESNTL_ID, '-' ORGNZT_NM, DEPT_CD FROM COMVNUSERMASTER WHERE CONCAT(USER_SE, USER_ID) = ?"
+        jdbcAuthoritiesByUsernameQuery=" SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY, B.DEPT_CD FROM EMP_ROLE A, COMVNUSERMASTER B WHERE( A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID OR A.SCRTY_DTRMN_TRGET_ID IN (SELECT DEPT_CD FROM T_DEPT_INFO START WITH  DEPT_CD = B.DEPT_CD CONNECT BY PRIOR DEPT_CD = UP_DEPT_CD ) ) AND B.USER_ID = ?"
+        jdbcMapClass="com.dkunc.cmn.mapper.EgovSessionMapping"
+
+        requestMatcherType="regex"
+        hash="plaintext"
+
+    /> -->
+
+    <egov-security:initializer id="initializer"
+        supportPointcut="false"
+    />
+
+    <egov-security:secured-object-config id="securedObjectConfig"
+       sqlRolesAndUrl="SELECT DISTINCT AUTH_PTTRN url, ROLE_CD authority   FROM T_MENU_INFO A, T_MENU_ROLE B WHERE a.menu_id = b.menu_id ORDER BY ROLE_CD,  AUTH_PTTRN"
+       sqlRolesAndMethod="SELECT '' &quot;method&quot;, '' authority FROM DUAL WHERE 1=2"
+       sqlRolesAndPointcut="SELECT '' pointcut, '' authority FROM DUAL WHERE 1=2"
+
+       sqlRegexMatchedRequestMapping="SELECT '' uri, '' authority FROM DUAL WHERE 1=2"
+       sqlHierarchicalRoles="SELECT a.CHILDREN_ROLE child,  a.PARENT_ROLE parent FROM T_ROLE_HIERARCHY a LEFT JOIN T_ROLE_HIERARCHY b ON (a.CHILDREN_ROLE = b.PARENT_ROLE)"
+    />
+
+</beans>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.dpt.mapper.DeptInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE DEPT_CD = #{deptCd}
+	</sql>
+	<sql id="where-models">
+		<if test="deptCd != null and deptCd != ''">
+			AND DEPT_CD = #{deptCd}
+		</if>
+		<if test="deptNm != null and deptNm != ''">
+			AND DEPT_NM = #{deptNm}
+		</if>
+		<if test="remark != null and remark != ''">
+			AND REMARK = #{remark}
+		</if>
+		<if test="upDeptCd != null and upDeptCd != ''">
+			AND UP_DEPT_CD = #{upDeptCd}
+		</if>
+		<if test="usageYn != null and usageYn != ''">
+			AND USAGE_YN = #{usageYn}
+		</if>
+		<if test="companyCd != null and companyCd != ''">
+			AND COMPANY_CD = #{companyCd}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<!-- <if test="assignParameters.contains('deptCd')">
+			, DEPT_CD
+		</if> -->
+		<if test="assignParameters.contains('deptNm')">
+			, DEPT_NM
+		</if>
+		<if test="assignParameters.contains('remark')">
+			, REMARK
+		</if>
+		<if test="assignParameters.contains('upDeptCd')">
+			, UP_DEPT_CD
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, USAGE_YN
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			, COMPANY_CD
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<!-- <if test="assignParameters.contains('deptCd')">
+			, #{deptCd}
+		</if> -->
+		<if test="assignParameters.contains('deptNm')">
+			, #{deptNm}
+		</if>
+		<if test="assignParameters.contains('remark')">
+			, #{remark}
+		</if>
+		<if test="assignParameters.contains('upDeptCd')">
+			, #{upDeptCd}
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, #{usageYn}
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			, #{companyCd}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('deptCd')">
+			, DEPT_CD = #{deptCd}
+		</if> -->
+		<if test="assignParameters.contains('deptNm')">
+			DEPT_NM = #{deptNm},
+		</if>
+		<if test="assignParameters.contains('remark')">
+			REMARK = #{remark},
+		</if>
+		<if test="assignParameters.contains('upDeptCd')">
+			UP_DEPT_CD = #{upDeptCd},
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			USAGE_YN = #{usageYn},
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			COMPANY_CD = #{companyCd},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertDeptInfo" parameterType="deptInfoVO" >
+			INSERT INTO T_DEPT_INFO
+			(
+				DEPT_CD
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{deptCd}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateDeptInfo" parameterType="deptInfoVO">
+		UPDATE T_DEPT_INFO
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteDeptInfo" parameterType="deptInfoVO">
+		DELETE T_DEPT_INFO
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+
+	<delete id="deleteAllDeptInfo" parameterType="deptInfoVO">
+		DELETE T_DEPT_INFO
+		WHERE DEPT_CD IN (
+			SELECT DEPT_CD
+			FROM T_DEPT_INFO
+			START WITH DEPT_CD = #{deptCd}
+			CONNECT BY PRIOR DEPT_CD = UP_DEPT_CD
+		)
+	</delete>
+</mapper>

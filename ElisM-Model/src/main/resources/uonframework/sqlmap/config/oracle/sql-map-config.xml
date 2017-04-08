@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+
+	<!-- 로그인 처리를 위한 resultMap -->
+
+	<typeAliases>
+		<!-- UOn플랫폼을 위한 VO -->
+		<typeAlias alias="menuAuthVO" type="com.dkunc.adm.ath.mnu.vo.MenuAuthVO"/>
+		<typeAlias alias="menuInfoVO" type="com.dkunc.adm.ath.mnu.vo.MenuInfoVO"/>
+		<typeAlias alias="userInfoVO" type="com.dkunc.cmn.lgn.vo.UserInfoVO"/>
+		<typeAlias alias="deptInfoVO" type="com.dkunc.adm.ath.dpt.vo.DeptInfoVO"/>
+    	<typeAlias alias="searchUserVO" type = "com.dkunc.adm.ath.usr.vo.SearchUserVO"/>
+    	<typeAlias alias="searchDeptVO" type = "com.dkunc.adm.ath.dpt.vo.SearchDeptVO"/>
+    	<typeAlias alias="searchMenuVO" type = "com.dkunc.adm.ath.mnu.vo.SearchMenuVO"/>
+		<typeAlias alias="roleInfoVO" type="com.dkunc.adm.ath.rol.vo.RoleInfoVO"/>
+		<typeAlias alias="companyInfoVO" type="com.dkunc.adm.ath.cpn.vo.CompanyInfoVO"/>
+		<typeAlias alias="menuRoleVO" type="com.dkunc.adm.ath.rol.vo.MenuRoleVO"/>
+		<typeAlias alias="roleHierarchyVO" type="com.dkunc.adm.ath.rol.vo.RoleHierarchyVO"/>
+		<typeAlias alias="userRoleVO" type="com.dkunc.adm.ath.rol.vo.UserRoleVO"/>
+		<typeAlias alias="codeMasterVO" type="com.dkunc.adm.ath.cde.vo.CodeMasterVO"/>
+		<typeAlias alias="codeDetailVO" type="com.dkunc.adm.ath.cde.vo.CodeDetailVO"/>
+		<!-- UOn플랫폼을 위한 VO - END -->
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+		<typeAlias alias="FileVO" type="com.dkunc.cmn.service.FileVO"/>
+		<typeAlias alias="ComDefaultCodeVO" type="com.dkunc.cmn.ComDefaultCodeVO"/>
+		<typeAlias  alias="comDefaultVO" type="com.dkunc.cmn.ComDefaultVO"/>
+		<typeAlias  alias="loginVO" type="com.dkunc.cmn.vo.LoginVO"/>
+    	<typeAlias  alias="searchDefaultVO" type = "com.dkunc.cmn.SearchDefaultVO"/>
+    	<typeAlias  alias="userManageVO"       type = "com.dkunc.adm.ath.usr.vo.UserManageVO"/>
+    	<typeAlias  alias="codeManageVO" type = "com.dkunc.adm.ath.cde.vo.CodeManageVO"/>
+    	<typeAlias  alias="boardInfoVO"       type = "com.dkunc.adm.ath.brd.vo.BoardInfoVO"/>
+    	<typeAlias  alias="boardAttachInfoVO"       type = "com.dkunc.adm.ath.brd.vo.BoardAttachInfoVO"/>
+	</typeAliases>
+</configuration>

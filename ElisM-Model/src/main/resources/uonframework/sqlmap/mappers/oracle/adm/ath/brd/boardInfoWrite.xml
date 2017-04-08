@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.brd.mapper.BoardInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE T_UID = #{tUid}
+	</sql>
+	<sql id="where-models">
+		<if test="tId != null and tId != 0">
+			AND T_UID = #{tId}
+		</if>
+		<if test="boardNo != null and boardNo != ''">
+			AND BOARD_NO = #{boardNo}
+		</if>
+		<if test="title != null and title != 0">
+			AND TITLE = #{title}
+		</if>
+		<if test="html != null and html != 0">
+			AND HTML = #{html}
+		</if>
+		<if test="saveFlag != null and saveFlag != ''">
+			AND SAVE_FLAG = #{saveFlag}
+		</if>
+		<if test="deleteFlag != null and deleteFlag != 0">
+			AND DELETE_FLAG = #{deleteFlag}
+		</if>
+		<if test="attachCnt != null and attachCnt != ''">
+			AND ATTACH_CNT = #{attachCnt}
+		</if>
+		<if test="visitCnt != null and visitCnt != ''">
+			AND VISIT_CNT = #{visitCnt}
+		</if>
+		<if test="parentUid != null and parentUid != ''">
+			AND PARENT_UID = #{parentUid}
+		</if>
+		<if test="step != null and step != ''">
+			AND STEP = #{step}
+		</if>
+		<if test="childUid != null and childUid != ''">
+			AND CHILD_UID = #{childUid}
+		</if>
+		<if test="downloadCnt != null and downloadCnt != ''">
+			AND DOWNLOAD_CNT = #{downloadCnt}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<!-- <if test="assignParameters.contains('tUid')">
+			, T_UID
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			, BOARD_NO
+		</if>
+		<if test="assignParameters.contains('title')">
+			, TITLE
+		</if>
+		<if test="assignParameters.contains('html')">
+			, HTML
+		</if>
+		<if test="assignParameters.contains('saveFlag')">
+			, SAVE_FLAG
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			, DELETE_FLAG
+		</if>
+		<if test="assignParameters.contains('attachCnt')">
+			, ATTACH_CNT
+		</if>
+		<if test="assignParameters.contains('visitCnt')">
+			, VISIT_CNT
+		</if>
+		<if test="assignParameters.contains('parentUid')">
+			, PARENT_UID
+		</if>
+		<if test="assignParameters.contains('step')">
+			, STEP
+		</if>
+		<if test="assignParameters.contains('childUid')">
+			, CHILD_UID
+		</if>
+		<if test="assignParameters.contains('downloadCnt')">
+			, DOWNLOAD_CNT
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<!-- <if test="assignParameters.contains('tUid')">
+			, #{tUid}
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			, #{boardNo}
+		</if>
+		<if test="assignParameters.contains('title')">
+			, #{title}
+		</if>
+		<if test="assignParameters.contains('html')">
+			, #{html}
+		</if>
+		<if test="assignParameters.contains('saveFlag')">
+			, #{saveFlag}
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			, #{deleteFlag}
+		</if>
+		<if test="assignParameters.contains('attachCnt')">
+			, #{attachCnt}
+		</if>
+		<if test="assignParameters.contains('visitCnt')">
+			, #{visitCnt}
+		</if>
+		<if test="assignParameters.contains('parentUid')">
+			, #{parentUid}
+		</if>
+		<if test="assignParameters.contains('step')">
+			, #{step}
+		</if>
+		<if test="assignParameters.contains('childUid')">
+			, #{childUid}
+		</if>
+		<if test="assignParameters.contains('downloadCnt')">
+			, #{downloadCnt}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('tUid')">
+			, T_UID = #{tUid}
+		</if> -->
+		<if test="assignParameters.contains('boardNo')">
+			BOARD_NO = #{boardNo},
+		</if>
+		<if test="assignParameters.contains('title')">
+			TITLE = #{title},
+		</if>
+		<if test="assignParameters.contains('html')">
+			HTML = #{html},
+		</if>
+		<if test="assignParameters.contains('saveFlag')">
+			SAVE_FLAG = #{saveFlag},
+		</if>
+		<if test="assignParameters.contains('deleteFlag')">
+			DELETE_FLAG = #{deleteFlag},
+		</if>
+		<if test="assignParameters.contains('attachCnt')">
+			ATTACH_CNT = #{attachCnt},
+		</if>
+		<if test="assignParameters.contains('visitCnt')">
+			VISIT_CNT = #{visitCnt},
+		</if>
+		<if test="assignParameters.contains('parentUid')">
+			PARENT_UID = #{parentUid},
+		</if>
+		<if test="assignParameters.contains('step')">
+			STEP = #{step},
+		</if>
+		<if test="assignParameters.contains('childUid')">
+			CHILD_UID = #{childUid},
+		</if>
+		<if test="assignParameters.contains('downloadCnt')">
+			DOWNLOAD_CNT = #{downloadCnt},
+		</if>
+	</sql>
+
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertBoardInfo" parameterType="boardInfoVO" >
+		<selectKey order="BEFORE" keyProperty="tUid" resultType="int">
+			SELECT SEQ_BOARD_INFO_T_UID.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO T_BOARD
+			(
+				T_UID
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{tUid}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateBoardInfo" parameterType="boardInfoVO">
+		UPDATE T_BOARD
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteBoardInfo" parameterType="boardInfoVO">
+		DELETE T_BOARD
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+</mapper>

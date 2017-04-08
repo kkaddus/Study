@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.cmn.mapper.CmmUseMapper">
+
+	<resultMap id="CmmCodeDetail" type="com.dkunc.cmn.service.CmmnDetailCode">
+		<result property="codeId"    	column="CODE_ID"   	/>
+		<result property="codeDesc"		column="CODE_DESC" 	/>
+		<result property="codeNm"   	column="CODE_NM"  	/>
+		<result property="codeCont"  	column="CODE_CONT"  />
+	</resultMap>
+
+	<select id="selectCmmCodeDetail" parameterType="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+		<![CDATA[
+			SELECT
+				B.CODE_ID, B.CODE_DESC, B.CODE_NM, A.CODE_NM CODE_CONT
+			FROM
+				T_CODE_MASTER A, T_CODE_DETAIL B
+			WHERE
+				A.CODE_ID = B.CODE_ID
+				AND A.USAGE_YN = 'Y' AND B.USAGE_YN = 'Y'
+				AND A.CODE_ID = #{codeId}
+			ORDER BY B.CODE_ID, B.CODE_DESC
+		]]>
+	</select>
+
+    <select id="selectOgrnztIdDetail" parameterType="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+            <![CDATA[
+            SELECT
+                #{tableNm}    CODE_ID,
+                ORGNZT_ID     CODE_DESC,
+                ORGNZT_NM     CODE_NM,
+                ORGNZT_DC     CODE_CONT
+            FROM
+                ORG_INFO
+            WHERE 1=1
+            ]]>
+            <if test="haveDetailCondition == 'Y'">
+                AND ORGNZT_ID  LIKE  #{detailConditionValue}
+            </if>
+    </select>
+
+    <select id="selectGroupIdDetail" parameterType="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+            <![CDATA[
+            SELECT
+                #{tableNm}  CODE_ID,
+                DEPT_CD     CODE_DESC,
+                DEPT_NM     CODE_NM,
+                REMARK		CODE_CONT
+            FROM
+                T_DEPT_INFO
+            WHERE 1=1
+            ]]>
+            <if test="haveDetailCondition == 'Y'" >
+                AND DEPT_CD  LIKE  #{detailConditionValue}
+            </if>
+    </select>
+</mapper>

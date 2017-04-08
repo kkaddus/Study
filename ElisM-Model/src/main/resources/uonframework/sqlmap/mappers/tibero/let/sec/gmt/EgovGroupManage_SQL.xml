@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.let.sec.gmt.mapper.GroupManageMapper">
+	<resultMap id="group" type="com.dkunc.let.sec.gmt.service.GroupManageVO">
+        <result property="groupId" column="GROUP_ID" />
+        <result property="groupNm" column="GROUP_NM" />
+        <result property="groupDc" column="GROUP_DC" />
+        <result property="groupCreatDe" column="GROUP_CREAT_DE" />
+    </resultMap>
+
+	<select id="selectGroup" parameterType="groupManageVO" resultMap="group">
+        <![CDATA[
+            SELECT GROUP_ID, GROUP_NM, GROUP_DC, GROUP_CREAT_DE
+              FROM GROUP_INFO
+             WHERE GROUP_ID=#{groupId}
+        ]]>
+    </select>
+
+    <select id="selectGroupList" parameterType="groupManageVO" resultMap="group">
+        <![CDATA[
+            SELECT  *
+              FROM  (
+            SELECT ROWNUM RNUM, ALL_LIST.*
+              FROM  (
+
+            SELECT GROUP_ID, GROUP_NM, GROUP_DC, GROUP_CREAT_DE
+              FROM GROUP_INFO
+             WHERE 1=1
+        ]]>
+            <if test="searchCondition == 1" >
+                AND GROUP_NM LIKE '%' || #{searchKeyword} || '%'
+            </if>
+        <![CDATA[
+            ORDER BY GROUP_CREAT_DE DESC
+                    ) ALL_LIST
+                    )
+             WHERE  RNUM  > #{firstIndex}
+               AND  RNUM <= #{firstIndex} + #{recordCountPerPage}
+        ]]>
+    </select>
+
+    <insert id="insertGroup">
+        <![CDATA[
+            INSERT INTO GROUP_INFO
+                  ( GROUP_ID
+                  , GROUP_NM
+                  , GROUP_DC
+                  , GROUP_CREAT_DE )
+           VALUES ( #{groupId}
+                  , #{groupNm}
+                  , #{groupDc}
+                  , SYSDATE)
+        ]]>
+    </insert>
+
+    <update id="updateGroup" parameterType="groupManage">
+        <![CDATA[
+            UPDATE GROUP_INFO
+               SET GROUP_NM=#{groupNm}
+                 , GROUP_DC=#{groupDc}
+             WHERE GROUP_ID=#{groupId}
+        ]]>
+    </update>
+
+    <delete id="deleteGroup">
+        <![CDATA[
+            DELETE FROM GROUP_INFO
+             WHERE GROUP_ID=#{groupId}
+        ]]>
+    </delete>
+
+    <select id="selectGroupListTotCnt" parameterType="groupManageVO" resultType="int">
+
+            SELECT COUNT(*) totcnt
+            FROM GROUP_INFO
+            WHERE 1=1
+            <if test="searchCondition == 1" >
+                AND GROUP_NM LIKE '%' || #{searchKeyword} || '%'
+            </if>
+    </select>
+</mapper>

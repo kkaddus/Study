@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.cde.mapper.CodeMasterWriteMapper">
+
+	<sql id="where-key">
+		WHERE CODE_ID = #{codeId}
+	</sql>
+	<sql id="where-models">
+		<if test="codeId != null and codeId != ''">
+			AND CODE_ID = #{codeId}
+		</if>
+		<if test="codeNm != null and codeNm != ''">
+			AND CODE_NM = #{codeNm}
+		</if>
+		<if test="usageYn != null and usageYn != ''">
+			AND USAGE_YN = #{usageYn}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<!-- <if test="assignParameters.contains('codeId')">
+			, CODE_ID
+		</if> -->
+		<if test="assignParameters.contains('codeNm')">
+			, CODE_NM
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, USAGE_YN
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<!-- <if test="assignParameters.contains('codeId')">
+			, #{codeId}
+		</if> -->
+		<if test="assignParameters.contains('codeNm')">
+			, #{codeNm}
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, #{usageYn}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('codeId')">
+			, CODE_ID = #{codeId}
+		</if> -->
+		<if test="assignParameters.contains('codeNm')">
+			CODE_NM = #{codeNm},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertCodeMaster" parameterType="codeMasterVO" >
+			INSERT INTO T_CODE_MASTER
+			(
+				CODE_ID
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{codeId}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateCodeMaster" parameterType="codeMasterVO">
+		UPDATE T_CODE_MASTER
+		<set>
+			<include refid="commonSql.common-update-condition" />
+			<include refid="update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteCodeMaster" parameterType="codeMasterVO">
+		DELETE T_CODE_MASTER
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+	<select id="selectCodeMaster" parameterType="codeMasterVO" resultType="codeMasterVO">
+		SELECT
+			*
+		FROM T_CODE_MASTER
+		<include refid="where-key" />
+	</select>
+</mapper>

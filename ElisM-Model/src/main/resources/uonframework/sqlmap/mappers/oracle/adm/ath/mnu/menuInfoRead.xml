@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.mnu.mapper.MenuInfoReadMapper">
+	<select id="selectMenuList" parameterType="searchMenuVO" resultType="egovMap">
+	    SELECT
+				MENU_ID										menuId,
+				MENU_NM										menuNm,
+				PARENT_MENU_ID								parentMenuId,
+				MENU_ORDER									menuOrder,
+				MENU_DESC    								menuDesc,
+				MENU_DEPTH									menuDepth,
+				MENU_URL									menuUrl,
+				AUTH_PTTRN									authPttrn,
+				TO_CHAR(CREATE_DT, 'YYYY-MM-DD')			createDt,
+				CREATE_ID									createId,
+				TO_CHAR(UPDATE_DT, 'YYYY-MM-DD')			updateDt,
+				UPDATE_ID									updateId
+		FROM T_MENU_INFO FM
+		WHERE FM.USAGE_YN='Y'
+		START WITH MENU_ID = 0
+		CONNECT BY PRIOR MENU_ID=PARENT_MENU_ID AND MENU_ID != 0 AND USAGE_YN='Y'
+    </select>
+
+    <select id="selectMenuListCnt" parameterType="searchMenuVO" resultType="int">
+            SELECT COUNT(1) totcnt
+            FROM   T_MENU_INFO
+            WHERE 1=1
+            	AND USAGE_YN ='Y'
+	        <if test="searchCondition != ''" >
+				<if test="searchCondition == 'MENU_ID'" >
+	            	AND MENU_ID LIKE '%' ||#{searchKeyword}|| '%'
+	            </if>
+				<if test="searchCondition == 'MENU_NM'" >
+	            	AND MENU_NM LIKE '%' ||#{searchKeyword}|| '%'
+	            </if>
+				<if test="searchCondition == 'MENU_URL'" >
+	            	AND MENU_URL LIKE '%' ||#{searchKeyword}|| '%'
+	            </if>
+	        </if>
+    </select>
+    
+    <select id="selectMenuInfo" parameterType="menuInfoVO" resultType="egovMap">
+		SELECT
+			MENU_ID, 
+			MENU_NM, 
+			PARENT_MENU_ID, 
+			(SELECT MENU_NM FROM T_MENU_INFO WHERE MENU_ID = A.PARENT_MENU_ID ) PARENT_MENU_NM,
+			MENU_ORDER, 
+			MENU_DESC,  
+			MENU_URL, 
+			MENU_DEPTH, 
+			AUTH_PTTRN,
+			CREATE_ID, 
+			TO_CHAR(CREATE_DT, 'YYYY-MM-DD') CREATE_DT, 
+			UPDATE_ID, 
+			TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') UPDATE_DT,
+			USAGE_YN
+	    FROM
+	    	T_MENU_INFO A
+	    WHERE
+	        MENU_ID = #{menuId} 
+        ORDER BY MENU_ORDER
+    </select>
+</mapper>

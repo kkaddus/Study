@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.cde.mapper.CodeManageMapper">
+	<select id="selectCodeList" parameterType="searchDefaultVO" resultType="egovMap">
+		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+	    SELECT CODE_ID                          AS "codeId", 
+		       CODE_NM                          AS "codeNm", 
+		       USAGE_YN                         AS "usageYn", 
+		       TO_CHAR(CREATE_DT, 'YYYY-MM-DD') AS "createDt", 
+		       CREATE_ID                        AS "createId", 
+		       TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') AS "updateDt", 
+		       UPDATE_ID                        AS "updateId" 
+		FROM T_CODE_MASTER
+	    WHERE 1=1
+	    <if test="searchCondition != ''" >
+		    <if test="searchCondition =='CODE_ID'" >
+	            AND CODE_ID LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	        <if test="searchCondition =='CODE_NM'" >
+	            AND CODE_NM LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	        <if test="searchCondition =='CREATE_ID'" >
+	            AND CREATE_ID LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	    </if>
+        ) TB ) WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
+    </select>
+
+    <select id="selectCodeListTotCnt" parameterType="searchDefaultVO" resultType="int">
+            SELECT COUNT(1) totcnt
+            FROM   T_CODE_MASTER
+            WHERE 1=1
+            <if test="searchCondition != ''" >
+	            <if test="searchCondition == 'CODE_ID'" >
+		            AND CODE_ID LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		         <if test="searchCondition =='CODE_NM'" >
+		            AND CODE_NM LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		        <if test="searchCondition =='CREATE_ID'" >
+		            AND CREATE_ID LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		    </if>
+    </select>
+    
+    <select id="checkIdDplct" resultType="int">
+     <![CDATA[
+         SELECT	COUNT(*) usedCnt
+         FROM	T_CODE_MASTER
+         WHERE	CODE_ID = #{checkId}
+     ]]>
+    </select>
+    
+    <select id="selectCodeDetailList" parameterType="searchDefaultVO" resultType="egovMap">
+		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+	    SELECT CODE_ID                          AS "codeId",
+	    	   CODE_DESC                        AS "codeDesc",
+		       CODE_NM                          AS "codeNm", 
+		       USAGE_YN                         AS "usageYn", 
+		       TO_CHAR(CREATE_DT, 'YYYY-MM-DD') AS "createDt", 
+		       CREATE_ID                        AS "createId", 
+		       TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') AS "updateDt", 
+		       UPDATE_ID                        AS "updateId" 
+		FROM T_CODE_DETAIL
+	    WHERE 1=1
+	    <if test="searchCondition != ''" >
+	    	<if test="searchCondition == 'CODE_DESC'" >
+		        AND CODE_DESC LIKE '%' || #{searchKeyword} || '%' 
+		    </if>
+		    <if test="searchCondition =='CODE_ID'" >
+	            AND CODE_ID LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	        <if test="searchCondition =='CODE_NM'" >
+	            AND CODE_NM LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	        <if test="searchCondition =='CREATE_ID'" >
+	            AND CREATE_ID LIKE '%' || #{searchKeyword} || '%' 
+	        </if>
+	    </if>
+        ) TB ) WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
+    </select>
+    
+    <select id="selectCodeDetailListTotCnt" parameterType="searchDefaultVO" resultType="int">
+            SELECT COUNT(1) totcnt
+            FROM   T_CODE_DETAIL
+            WHERE 1=1
+            <if test="searchCondition != ''" >
+            	<if test="searchCondition == 'CODE_DESC'" >
+		            AND CODE_DESC LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+	            <if test="searchCondition == 'CODE_ID'" >
+		            AND CODE_ID LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		         <if test="searchCondition =='CODE_NM'" >
+		            AND CODE_NM LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		        <if test="searchCondition =='CREATE_ID'" >
+		            AND CREATE_ID LIKE '%' || #{searchKeyword} || '%' 
+		        </if>
+		    </if>
+    </select>
+    
+    <select id="checkDescDplct" resultType="int">
+     <![CDATA[
+         SELECT	COUNT(*) usedCnt
+         FROM	T_CODE_DETAIL
+         WHERE	CODE_ID = #{codeId} AND CODE_DESC= #{checkId}
+     ]]>
+    </select>
+    
+</mapper>

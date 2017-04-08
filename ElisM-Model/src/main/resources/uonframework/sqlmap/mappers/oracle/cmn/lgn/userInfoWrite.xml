@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.cmn.lgn.mapper.UserInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE USER_ID = #{userId}
+	</sql>
+	<sql id="where-models">
+		<if test="userId != null and userId != ''">
+			AND USER_ID = #{userId}
+		</if>
+		<if test="userNm != null and userNm != ''">
+			AND USER_NM = #{userNm}
+		</if>
+		<if test="pwd != null and pwd != ''">
+			AND PWD = #{pwd}
+		</if>
+		<if test="pwdHint != null and pwdHint != ''">
+			AND PWD_HINT = #{pwdHint}
+		</if>
+		<if test="pwdCnsr != null and pwdCnsr != ''">
+			AND PWD_CNSR = #{pwdCnsr}
+		</if>
+		<if test="jobCd != null and jobCd != ''">
+			AND JOB_CD = #{jobCd}
+		</if>
+		<if test="positionCd != null and positionCd != ''">
+			AND POSITION_CD = #{positionCd}
+		</if>
+		<if test="titleCd != null and titleCd != ''">
+			AND TITLE_CD = #{titleCd}
+		</if>
+		<if test="empNo != null and empNo != ''">
+			AND EMP_NO = #{empNo}
+		</if>
+		<if test="hireDt != null">
+			AND HIRE_DT = #{hireDt}
+		</if>
+		<if test="promotionDt != null">
+			AND PROMOTION_DT = #{promotionDt}
+		</if>
+		<if test="deptCd != null and deptCd != ''">
+			AND DEPT_CD = #{deptCd}
+		</if>
+		<if test="deptNm != null and deptNm != ''">
+			AND DEPT_NM = #{deptNm}
+		</if>
+		<if test="email != null and email != ''">
+			AND EMAIL = #{email}
+		</if>
+		<if test="zipCd != null and zipCd != ''">
+			AND ZIP_CD = #{zipCd}
+		</if>
+		<if test="adr1 != null and adr1 != ''">
+			AND ADR1 = #{adr1}
+		</if>
+		<if test="adr2 != null and adr2 != ''">
+			AND ADR2 = #{adr2}
+		</if>
+		<if test="adr3 != null and adr3 != ''">
+			AND ADR3 = #{adr3}
+		</if>
+		<if test="mobileNo != null and mobileNo != ''">
+			AND MOBILE_NO = #{mobileNo}
+		</if>
+		<if test="telNo != null and telNo != ''">
+			AND TEL_NO = #{telNo}
+		</if>
+		<if test="comTelNo != null and comTelNo != ''">
+			AND COM_TEL_NO = #{comTelNo}
+		</if>
+		<if test="faxNo != null and faxNo != ''">
+			AND FAX_NO = #{faxNo}
+		</if>
+		<if test="userOrder != null and userOrder != ''">
+			AND USER_ORDER = #{userOrder}
+		</if>
+		<if test="usageYn != null and usageYn != ''">
+			AND USAGE_YN = #{usageYn}
+		</if>
+		<if test="userSt != null and userSt != ''">
+			AND USER_ST = #{userSt}
+		</if>
+		<if test="companyCd != null and companyCd != ''">
+			AND COMPANY_CD = #{companyCd}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<!-- <if test="assignParameters.contains('userId')">
+			, USER_ID
+		</if> -->
+		<if test="assignParameters.contains('userNm')">
+			, USER_NM
+		</if>
+		<if test="assignParameters.contains('pwd')">
+			, PWD
+		</if>
+		<if test="assignParameters.contains('pwdHint')">
+			, PWD_HINT
+		</if>
+		<if test="assignParameters.contains('pwdCnsr')">
+			, PWD_CNSR
+		</if>
+		<if test="assignParameters.contains('jobCd')">
+			, JOB_CD
+		</if>
+		<if test="assignParameters.contains('positionCd')">
+			, POSITION_CD
+		</if>
+		<if test="assignParameters.contains('titleCd')">
+			, TITLE_CD
+		</if>
+		<if test="assignParameters.contains('empNo')">
+			, EMP_NO
+		</if>
+		<if test="assignParameters.contains('hireDt')">
+			, HIRE_DT
+		</if>
+		<if test="assignParameters.contains('promotionDt')">
+			, PROMOTION_DT
+		</if>
+		<if test="assignParameters.contains('deptCd')">
+			, DEPT_CD
+		</if>
+		<if test="assignParameters.contains('deptNm')">
+			, DEPT_NM
+		</if>
+		<if test="assignParameters.contains('email')">
+			, EMAIL
+		</if>
+		<if test="assignParameters.contains('zipCd')">
+			, ZIP_CD
+		</if>
+		<if test="assignParameters.contains('adr1')">
+			, ADR1
+		</if>
+		<if test="assignParameters.contains('adr2')">
+			, ADR2
+		</if>
+		<if test="assignParameters.contains('adr3')">
+			, ADR3
+		</if>
+		<if test="assignParameters.contains('mobileNo')">
+			, MOBILE_NO
+		</if>
+		<if test="assignParameters.contains('telNo')">
+			, TEL_NO
+		</if>
+		<if test="assignParameters.contains('comTelNo')">
+			, COM_TEL_NO
+		</if>
+		<if test="assignParameters.contains('faxNo')">
+			, FAX_NO
+		</if>
+		<if test="assignParameters.contains('userOrder')">
+			, USER_ORDER
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, USAGE_YN
+		</if>
+		<if test="assignParameters.contains('userSt')">
+			, USER_ST
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			, COMPANY_CD
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<!-- <if test="assignParameters.contains('userId')">
+			, #{userId}
+		</if> -->
+		<if test="assignParameters.contains('userNm')">
+			, #{userNm}
+		</if>
+		<if test="assignParameters.contains('pwd')">
+			, #{pwd}
+		</if>
+		<if test="assignParameters.contains('pwdHint')">
+			, #{pwdHint}
+		</if>
+		<if test="assignParameters.contains('pwdCnsr')">
+			, #{pwdCnsr}
+		</if>
+		<if test="assignParameters.contains('jobCd')">
+			, #{jobCd}
+		</if>
+		<if test="assignParameters.contains('positionCd')">
+			, #{positionCd}
+		</if>
+		<if test="assignParameters.contains('titleCd')">
+			, #{titleCd}
+		</if>
+		<if test="assignParameters.contains('empNo')">
+			, #{empNo}
+		</if>
+		<if test="assignParameters.contains('hireDt')">
+			, #{hireDt}
+		</if>
+		<if test="assignParameters.contains('promotionDt')">
+			, #{promotionDt}
+		</if>
+		<if test="assignParameters.contains('deptCd')">
+			, #{deptCd}
+		</if>
+		<if test="assignParameters.contains('deptNm')">
+			, #{deptNm}
+		</if>
+		<if test="assignParameters.contains('email')">
+			, #{email}
+		</if>
+		<if test="assignParameters.contains('zipCd')">
+			, #{zipCd}
+		</if>
+		<if test="assignParameters.contains('adr1')">
+			, #{adr1}
+		</if>
+		<if test="assignParameters.contains('adr2')">
+			, #{adr2}
+		</if>
+		<if test="assignParameters.contains('adr3')">
+			, #{adr3}
+		</if>
+		<if test="assignParameters.contains('mobileNo')">
+			, #{mobileNo}
+		</if>
+		<if test="assignParameters.contains('telNo')">
+			, #{telNo}
+		</if>
+		<if test="assignParameters.contains('comTelNo')">
+			, #{comTelNo}
+		</if>
+		<if test="assignParameters.contains('faxNo')">
+			, #{faxNo}
+		</if>
+		<if test="assignParameters.contains('userOrder')">
+			, #{userOrder}
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, #{usageYn}
+		</if>
+		<if test="assignParameters.contains('userSt')">
+			, #{userSt}
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			, #{companyCd}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('userId')">
+			, USER_ID = #{userId}
+		</if> -->
+		<if test="assignParameters.contains('userNm')">
+			USER_NM = #{userNm},
+		</if>
+		<if test="assignParameters.contains('pwd')">
+			PWD =  #{pwd},
+		</if>
+		<if test="assignParameters.contains('pwdHint')">
+			PWD_HINT =  #{pwdHint},
+		</if>
+		<if test="assignParameters.contains('pwdCnsr')">
+			PWD_CNSR =  #{pwdCnsr},
+		</if>
+		<if test="assignParameters.contains('jobCd')">
+			JOB_CD =  #{jobCd},
+		</if>
+		<if test="assignParameters.contains('positionCd')">
+			POSITION_CD =  #{positionCd},
+		</if>
+		<if test="assignParameters.contains('titleCd')">
+			TITLE_CD =  #{titleCd},
+		</if>
+		<if test="assignParameters.contains('empNo')">
+			EMP_NO =  #{empNo},
+		</if>
+		<if test="assignParameters.contains('hireDt')">
+			HIRE_DT =  #{hireDt},
+		</if>
+		<if test="assignParameters.contains('promotionDt')">
+			PROMOTION_DT =  #{promotionDt},
+		</if>
+		<if test="assignParameters.contains('deptCd')">
+			DEPT_CD =  #{deptCd},
+		</if>
+		<if test="assignParameters.contains('deptNm')">
+			DEPT_NM =  #{deptNm},
+		</if>
+		<if test="assignParameters.contains('email')">
+			EMAIL =  #{email},
+		</if>
+		<if test="assignParameters.contains('zipCd')">
+			ZIP_CD =  #{zipCd},
+		</if>
+		<if test="assignParameters.contains('adr1')">
+			ADR1 =  #{adr1},
+		</if>
+		<if test="assignParameters.contains('adr2')">
+			ADR2 =  #{adr2},
+		</if>
+		<if test="assignParameters.contains('adr3')">
+			ADR3 =  #{adr3},
+		</if>
+		<if test="assignParameters.contains('mobileNo')">
+			MOBILE_NO =  #{mobileNo},
+		</if>
+		<if test="assignParameters.contains('telNo')">
+			TEL_NO =  #{telNo},
+		</if>
+		<if test="assignParameters.contains('comTelNo')">
+			COM_TEL_NO =  #{comTelNo},
+		</if>
+		<if test="assignParameters.contains('faxNo')">
+			FAX_NO =  #{faxNo},
+		</if>
+		<if test="assignParameters.contains('userOrder')">
+			USER_ORDER =  #{userOrder},
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			USAGE_YN =  #{usageYn},
+		</if>
+		<if test="assignParameters.contains('userSt')">
+			USER_ST =  #{userSt},
+		</if>
+		<if test="assignParameters.contains('companyCd')">
+			COMPANY_CD = #{companyCd},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertUserInfo" parameterType="userInfoVO" >
+			INSERT INTO T_USER_INFO
+			(
+				USER_ID
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{userId}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateUserInfo" parameterType="userInfoVO">
+		UPDATE T_USER_INFO
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteUserInfo" parameterType="userInfoVO">
+		DELETE T_USER_INFO
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+	<select id="actionLogin" parameterType="userInfoVO" resultType="userInfoVO">
+		SELECT
+			*
+		FROM T_USER_INFO
+		WHERE
+			USER_ID = #{userId}
+			AND PWD = #{pwd}
+	</select>
+	<select id="selectUserInfo" parameterType="userInfoVO" resultType="userInfoVO">
+		SELECT
+			*
+		FROM T_USER_INFO
+		<include refid="where-key" />
+	</select>
+</mapper>

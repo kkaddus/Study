@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.rol.mapper.RoleInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE ROLE_CD = #{roleCd}
+	</sql>
+	<sql id="where-models">
+		<if test="roleNm != null and roleNm != ''">
+			AND ROLE_NM = #{roleNm}
+		</if>
+		<if test="roleDesc != null and roleDesc != ''">
+			AND ROLE_DESC = #{roleDesc}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<if test="assignParameters.contains('roleNm')">
+			, ROLE_NM
+		</if>
+		<if test="assignParameters.contains('roleDesc')">
+			, ROLE_DESC
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<if test="assignParameters.contains('roleNm')">
+			, #{roleNm}
+		</if>
+		<if test="assignParameters.contains('roleDesc')">
+			, #{roleDesc}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<if test="assignParameters.contains('roleNm')">
+			ROLE_NM = #{roleNm},
+		</if>
+		<if test="assignParameters.contains('roleDesc')">
+			ROLE_DESC = #{roleDesc},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertRoleInfo" parameterType="roleInfoVO" >
+			INSERT INTO T_ROLE_INFO
+			(
+				ROLE_CD
+				<include refid="insert-condition" />
+				<include refid="commonSql.common-insert-condition" />
+			)
+			VALUES
+			(
+				#{roleCd}
+				<include refid="insert-value" />
+				<include refid="commonSql.common-insert-value" />
+			)
+	</insert>
+	<update id="updateRoleInfo" parameterType="roleInfoVO">
+		UPDATE T_ROLE_INFO
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteRoleInfo" parameterType="roleInfoVO">
+		DELETE T_ROLE_INFO
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+	<select id="selectRoleInfo" parameterType="roleInfoVO" resultType="roleInfoVO">
+		SELECT
+			*
+		FROM T_ROLE_INFO
+		<include refid="where-key" />
+	</select>
+</mapper>

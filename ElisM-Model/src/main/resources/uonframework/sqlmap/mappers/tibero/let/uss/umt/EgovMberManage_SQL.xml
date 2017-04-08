@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.let.uss.umt.mapper.MberManageMapper">
+    <insert id="insertMber_S">
+        <![CDATA[
+            INSERT INTO EMP_INFO
+                (
+                    ESNTL_ID          ,
+                    MBER_ID          ,
+                    MBER_NM          ,
+                    PASSWORD         ,
+                    PASSWORD_HINT    ,
+                    PASSWORD_CNSR    ,
+                    IHIDNUM          ,
+                    ZIP              ,
+                    ADRES            ,
+                    AREA_NO          ,
+                    MBER_STTUS       ,
+                    DETAIL_ADRES     ,
+                    END_TELNO        ,
+                    MBTLNUM      ,
+                    MBER_FXNUM       ,
+                    MBER_EMAIL_ADRES ,
+                    MIDDLE_TELNO     ,
+                    SBSCRB_DE        )
+              VALUES(
+                    #{uniqId},
+                    #{mberId},
+                    #{mberNm},
+                    #{password},
+                    #{passwordHint},
+                    #{passwordCnsr},
+                    #{ihidnum},
+                    #{zip},
+                    #{adres},
+                    #{areaNo},
+                    #{mberSttus},
+                    #{detailAdres},
+                    #{endTelno},
+                    #{moblphonNo},
+                    #{mberFxnum},
+                    #{mberEmailAdres},
+                    #{middleTelno},
+                    sysdate  )
+        ]]>
+    </insert>
+
+    <delete id="deleteMber_S">
+        <![CDATA[
+            DELETE FROM EMP_INFO
+            WHERE ESNTL_ID=#{delId}
+        ]]>
+    </delete>
+
+    <select id="selectMber_S" resultType="mberVO">
+        <![CDATA[
+            SELECT
+                ESNTL_ID          uniqId,
+                'USR01'          userTy,
+                MBER_ID          mberId,
+                MBER_NM          mberNm,
+                PASSWORD         password,
+                PASSWORD_HINT    passwordHint,
+                PASSWORD_CNSR    passwordCnsr,
+                IHIDNUM          ihidnum,
+                ZIP              zip,
+                ADRES            adres,
+                AREA_NO          areaNo,
+                MBER_STTUS       mberSttus,
+                DETAIL_ADRES     detailAdres,
+                END_TELNO        endTelno,
+                MBTLNUM      moblphonNo,
+                GROUP_ID         deptCd,
+                MBER_FXNUM       mberFxnum,
+                MBER_EMAIL_ADRES mberEmailAdres,
+                MIDDLE_TELNO     middleTelno,
+                SBSCRB_DE        sbscrbDe
+            FROM EMP_INFO
+            WHERE ESNTL_ID=#{uniqId}
+        ]]>
+    </select>
+
+    <update id="updateMber_S">
+        <![CDATA[
+            UPDATE EMP_INFO
+            SET MBER_ID          = #{mberId},
+                MBER_NM          = #{mberNm},
+                PASSWORD_HINT    = #{passwordHint},
+                PASSWORD_CNSR    = #{passwordCnsr},
+                IHIDNUM          = #{ihidnum},
+                ZIP              = #{zip},
+                ADRES            = #{adres},
+                AREA_NO          = #{areaNo},
+                MBER_STTUS       = #{mberSttus},
+                DETAIL_ADRES     = #{detailAdres},
+                END_TELNO        = #{endTelno},
+                MBTLNUM      	 = #{moblphonNo},
+                MBER_FXNUM       = #{mberFxnum},
+                MBER_EMAIL_ADRES = #{mberEmailAdres},
+                MIDDLE_TELNO     = #{middleTelno}
+            WHERE ESNTL_ID=#{uniqId}
+        ]]>
+    </update>
+
+    <update id="updatePassword_S">
+        <![CDATA[
+            UPDATE EMP_INFO
+            SET
+                   PASSWORD   =  #{password}
+            WHERE  ESNTL_ID  = #{uniqId}
+        ]]>
+    </update>
+
+    <select id="selectPassword_S" resultType="mberVO">
+        <![CDATA[
+            SELECT
+                    PASSWORD          password
+            FROM    EMP_INFO
+            WHERE   ESNTL_ID=#{uniqId}
+        ]]>
+    </select>
+
+    <select id="checkIdDplct_S" resultType="int">
+     <![CDATA[
+         SELECT COUNT(1) usedCnt
+             FROM(
+             SELECT
+                 MBER_ID               userId
+             FROM    EMP_INFO
+             ) A
+         WHERE userId = #{checkId}
+     ]]>
+    </select>
+</mapper>

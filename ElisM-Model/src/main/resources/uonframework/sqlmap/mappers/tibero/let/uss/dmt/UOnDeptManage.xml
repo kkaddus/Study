@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.let.uss.dmt.mapper.UOnDeptManageMapper">
+	<select id="selectDeptList" parameterType="searchDefaultVO" resultType="egovMap">
+		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+	    SELECT
+	        ESNTL_ID               as "uniqId",
+	        'USR01'               as "userTy",
+	        MBER_ID               as "userId",
+	        MBER_NM               as "userNm",
+	        MBER_EMAIL_ADRES      as "emailAdres",
+	        AREA_NO               as "areaNo",
+	        MIDDLE_TELNO          as "middleTelno",
+	        END_TELNO             as "endTelno",
+	        MBTLNUM           as "moblphonNo",
+	        GROUP_ID              as "groupId",
+	        MBER_STTUS            as "sttus",
+	        SBSCRB_DE             as "sbscrbDe"
+	    FROM    EMP_INFO
+	    WHERE 1=1
+        <if test="sbscrbSttus != 0" >
+            AND MBER_STTUS LIKE  #{sbscrbSttus}
+        </if>
+        <if test="searchCondition == 0" >
+            AND MBER_ID LIKE #{searchKeyword}
+        </if>
+        <if test="searchCondition == 1">
+            AND MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+        </if>
+        ORDER BY 12 DESC
+        ) TB ) WHERE rn BETWEEN #{firstIndex} + 1 AND #{firstIndex} + #{recordCountPerPage}
+    </select>
+
+
+    <select id="selectDeptListTotCnt" parameterType="searchDefaultVO" resultType="int">
+            SELECT COUNT(1) totcnt
+            FROM   EMP_INFO
+            WHERE 1=1
+            <if test="sbscrbSttus != 0" >
+                AND MBER_STTUS LIKE  #{sbscrbSttus}
+            </if>
+            <if test="searchCondition == 0" >
+                AND MBER_ID LIKE #{searchKeyword}
+            </if>
+            <if test="searchCondition == 1" >
+                AND MBER_NM LIKE '%' ||#{searchKeyword}|| '%'
+            </if>
+    </select>
+</mapper>

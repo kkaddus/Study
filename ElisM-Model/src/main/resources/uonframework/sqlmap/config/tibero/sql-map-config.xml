@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+
+	<!-- 로그인 처리를 위한 resultMap -->
+
+	<typeAliases>
+		<!-- UOn플랫폼을 위한 VO -->
+		<typeAlias alias="menuAuthVO" type="com.dkunc.adm.ath.mnu.vo.MenuAuthVO"/>
+		<typeAlias alias="menuInfoVO" type="com.dkunc.adm.ath.mnu.vo.MenuInfoVO"/>
+		<!-- UOn플랫폼을 위한 VO - END -->
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+		<typeAlias alias="FileVO" type="com.dkunc.cmn.service.FileVO"/>
+		<typeAlias alias="ComDefaultCodeVO" type="com.dkunc.cmn.ComDefaultCodeVO"/>
+		<typeAlias  alias="comDefaultVO" type="com.dkunc.cmn.ComDefaultVO"/>
+		<typeAlias  alias="loginVO" type="com.dkunc.cmn.vo.LoginVO"/>
+    	<typeAlias  alias="searchDefaultVO" type = "com.dkunc.cmn.SearchDefaultVO"/>
+    	<typeAlias  alias="mberVO"       type = "com.dkunc.let.uss.umt.service.MberManageVO"/>
+	</typeAliases>
+</configuration>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.adm.ath.mnu.mapper.MenuInfoWriteMapper">
+
+	<sql id="where-key">
+		WHERE MENU_ID = #{menuId}
+	</sql>
+	<sql id="where-models">
+		<if test="menuId != null and menuId != 0">
+			AND MENU_ID = #{menuId}
+		</if>
+		<if test="menuNm != null and menuNm != ''">
+			AND MENU_NM = #{menuNm}
+		</if>
+		<if test="parentMenuId != null and parentMenuId != 0">
+			AND PARENT_MENU_ID = #{parentMenuId}
+		</if>
+		<if test="menuOrder != null and menuOrder != 0">
+			AND MENU_ORDER = #{menuOrder}
+		</if>
+		<if test="menuDesc != null and menuDesc != ''">
+			AND MENU_DESC = #{menuDesc}
+		</if>
+		<if test="menuDepth != null and menuDepth != 0">
+			AND MENU_DEPTH = #{menuDepth}
+		</if>
+		<if test="menuUrl != null and menuUrl != ''">
+			AND MENU_URL = #{menuUrl}
+		</if>
+		<if test="authPttrn != null and authPttrn != ''">
+			AND AUTH_PTTRN = #{authPttrn}
+		</if>
+		<if test="usageYn != null and usageYn != ''">
+			AND USAGE_YN = #{usageYn}
+		</if>
+	</sql>
+	<sql id="insert-condition">
+		<if test="assignParameters.contains('menuId')">
+			MENU_ID
+		</if>
+		<if test="assignParameters.contains('menuNm')">
+			, MENU_NM
+		</if>
+		<if test="assignParameters.contains('parentMenuId')">
+			, PARENT_MENU_ID
+		</if>
+		<if test="assignParameters.contains('menuOrder')">
+			, MENU_ORDER
+		</if>
+		<if test="assignParameters.contains('menuDesc')">
+			, MENU_DESC
+		</if>
+		<if test="assignParameters.contains('menuDepth')">
+			, MENU_DEPTH
+		</if>
+		<if test="assignParameters.contains('menuUrl')">
+			, MENU_URL
+		</if>
+		<if test="assignParameters.contains('authPttrn')">
+			, AUTH_PTTRN
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, USAGE_YN
+		</if>
+	</sql>
+	<sql id="insert-value">
+		<if test="assignParameters.contains('menuId')">
+			#{menuId}
+		</if>
+		<if test="assignParameters.contains('menuNm')">
+			, #{menuNm}
+		</if>
+		<if test="assignParameters.contains('parentMenuId')">
+			, #{parentMenuId}
+		</if>
+		<if test="assignParameters.contains('menuOrder')">
+			, #{menuOrder}
+		</if>
+		<if test="assignParameters.contains('menuDesc')">
+			, #{menuDesc}
+		</if>
+		<if test="assignParameters.contains('menuDepth')">
+			, #{menuDepth}
+		</if>
+		<if test="assignParameters.contains('menuUrl')">
+			, #{menuUrl}
+		</if>
+		<if test="assignParameters.contains('authPttrn')">
+			, #{authPttrn}
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			, #{usageYn}
+		</if>
+	</sql>
+	<sql id="update-condition">
+		<!-- <if test="assignParameters.contains('menuId')">
+			, MENU_ID = #{menuId}
+		</if> -->
+		<if test="assignParameters.contains('menuNm')">
+			MENU_NM = #{menuNm},
+		</if>
+		<if test="assignParameters.contains('parentMenuId')">
+			PARENT_MENU_ID = #{parentMenuId},
+		</if>
+		<if test="assignParameters.contains('menuOrder')">
+			MENU_ORDER = #{menuOrder},
+		</if>
+		<if test="assignParameters.contains('menuDesc')">
+			MENU_DESC = #{menuDesc},
+		</if>
+		<if test="assignParameters.contains('menuDepth')">
+			MENU_DEPTH = #{menuDepth},
+		</if>
+		<if test="assignParameters.contains('menuUrl')">
+			MENU_URL = #{menuUrl},
+		</if>
+		<if test="assignParameters.contains('usageYn')">
+			USAGE_YN = #{usageYn},
+		</if>
+	</sql>
+	<sql id="paging-sort">
+		<choose>
+			<when test="pagingSort !=null and pagingSort !=''">${pagingSort}</when>
+			<otherwise>CREATE_DT</otherwise>
+		</choose> <choose>
+			<when test="pagingSortType=='ASC'">ASC</when>
+			<otherwise>DESC</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insertMenuInfo" parameterType="menuInfoVO" >
+<!-- 		<selectKey order="BEFORE" keyProperty="menuId" resultType="int"> -->
+<!-- 			SELECT SEQ_MENU_INFO_MENU_ID.NEXTVAL FROM DUAL -->
+<!-- 		</selectKey> -->
+		INSERT INTO T_MENU_INFO
+		(
+			<include refid="insert-condition" />
+			<include refid="commonSql.common-insert-condition" />
+		)
+		VALUES
+		(
+			<include refid="insert-value" />
+			<include refid="commonSql.common-insert-value" />
+		)
+	</insert>
+	<update id="updateMenuInfo" parameterType="menuInfoVO">
+		UPDATE T_MENU_INFO
+		<set>
+			<include refid="update-condition" />
+			<include refid="commonSql.common-update-condition" />
+		</set>
+		<include refid="where-key" />
+	</update>
+
+	<delete id="deleteMenuInfo" parameterType="menuInfoVO">
+		DELETE T_MENU_INFO
+		WHERE 1=2 OR (<trim prefix="" prefixOverrides="AND|OR"><include refid="where-models" /></trim>)
+	</delete>
+
+	<delete id="deleteAllMenuInfo" parameterType="menuInfoVO">
+		DELETE T_MENU_INFO
+		WHERE MENU_ID IN (
+			SELECT MENU_ID
+			FROM T_MENU_INFO
+			START WITH MENU_ID = #{menuId}
+			CONNECT BY PRIOR MENU_ID = PARENT_MENU_ID
+		)
+	</delete>
+</mapper>

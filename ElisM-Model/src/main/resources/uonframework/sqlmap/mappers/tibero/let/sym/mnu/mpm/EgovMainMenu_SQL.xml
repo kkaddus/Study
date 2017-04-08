@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkunc.let.sym.mnu.mpm.mapper.MenuManageMapper">
+	<select id="selectMainMenuHead" parameterType="MenuManageVO" resultType="egovMap">
+		<![CDATA[
+            SELECT
+			      B.MENU_NO           AS "menuNo"
+				, B.MENU_ORDR         AS "menuOrdr"
+				, B.MENU_NM           AS "menuNm"
+				, B.UPPER_MENU_NO     AS "upperMenuId"
+				, B.MENU_DC           AS "menuDc"
+				, B.RELATE_IMAGE_PATH AS "relateImagePath"
+				, B.RELATE_IMAGE_NM   AS "relateImageNm"
+				, B.PROGRM_FILE_NM    AS "progrmFileNm"
+				, (SELECT C.URL FROM PROGRAM_INFO C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"
+			FROM MENU_AUTH A, MENU_INFO B
+			WHERE  B.Menu_NO > 0
+			AND    B.UPPER_MENU_NO = 0
+			AND    A.MENU_NO  = B.MENU_NO
+			AND    A.AUTHOR_CODE IN (SELECT C.AUTHOR_CODE from EMP_ROLE C
+	                                WHERE  C.SCRTY_DTRMN_TRGET_ID = #{tmp_UniqId}
+	                                	OR C.SCRTY_DTRMN_TRGET_ID IN (SELECT GROUP_ID
+															FROM GROUP_INFO
+															START WITH  GROUP_ID = #{groupId}
+															CONNECT BY PRIOR UP_GROUP_ID = GROUP_ID
+															)
+	                                )
+	        GROUP BY B.MENU_NO
+				, B.MENU_ORDR
+				, B.MENU_NM
+				, B.UPPER_MENU_NO
+				, B.MENU_DC
+				, B.RELATE_IMAGE_PATH
+				, B.RELATE_IMAGE_NM
+				, B.PROGRM_FILE_NM
+			ORDER BY MENU_ORDR
+		]]>
+	</select>
+
+	<select id="selectMainMenuLeft" parameterType="MenuManageVO" resultType="egovMap">
+		<![CDATA[
+			SELECT
+			       B.MENU_NO           AS "menuNo"
+				 , B.MENU_ORDR         AS "menuOrdr"
+				 , B.MENU_NM           AS "menuNm"
+				 , B.UPPER_MENU_NO     AS "upperMenuId"
+				 , B.RELATE_IMAGE_PATH AS "relateImagePath"
+				 , B.RELATE_IMAGE_NM   AS "relateImageNm"
+				 , (SELECT C.URL FROM PROGRAM_INFO C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"
+			FROM   MENU_AUTH A, MENU_INFO B
+			WHERE  A.MENU_NO  = B.MENU_NO
+			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from EMP_ROLE
+	                                WHERE  SCRTY_DTRMN_TRGET_ID = #{tmp_UniqId})
+			ORDER BY B.MENU_ORDR
+		]]>
+	</select>
+
+	<select id="selectLastMenuURL" parameterType="MenuManageVO" resultType="String">
+		<![CDATA[
+			SELECT URL
+			FROM   PROGRAM_INFO
+			WHERE  PROGRM_FILE_NM =
+			       (SELECT PROGRM_FILE_NM FROM MENU_INFO
+				    WHERE MENU_NO = #{menuNo})
+		]]>
+	</select>
+
+	<select id="selectLastMenuNo" parameterType="MenuManageVO" resultType="int">
+		<![CDATA[
+			select MIN(MENU_NO)
+			from   MENU_INFO
+			where  UPPER_MENU_NO = #{menuNo}
+			and    MENU_ORDR =
+			      (select MIN(MENU_ORDR)
+			       from MENU_AUTH A, MENU_INFO B
+			       where A.MENU_NO = B.MENU_NO
+			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from EMP_ROLE
+	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #{tempValue})
+			       AND   B.UPPER_MENU_NO = #{menuNo})
+		]]>
+	</select>
+
+	<select id="selectLastMenuNoCnt" parameterType="MenuManageVO" resultType="int">
+		<![CDATA[
+			select count(MENU_NO)
+			from   MENU_INFO
+			where  UPPER_MENU_NO = #{menuNo}
+			and    MENU_ORDR =
+			      (select MIN(MENU_ORDR)
+			       from MENU_AUTH A, MENU_INFO B
+			       where A.MENU_NO = B.MENU_NO
+			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from EMP_ROLE
+	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #{tempValue})
+			       AND   B.UPPER_MENU_NO = #{menuNo})
+		]]>
+	</select>
+
+	<select id="selectMainMenuHeadByAuthor" parameterType="MenuManageVO" resultType="egovMap">
+        <![CDATA[
+            SELECT
+                  B.MENU_NO AS menuNo
+                , B.MENU_ORDR AS menuOrdr
+                , B.MENU_NM AS menuNm
+                , B.UPPER_MENU_NO AS upperMenuId
+                , B.MENU_DC AS menuDc
+                , B.RELATE_IMAGE_PATH AS relateImagePath
+                , B.RELATE_IMAGE_NM AS relateImageNm
+                , B.PROGRM_FILE_NM AS progrmFileNm
+                , (SELECT C.URL FROM PROGRAM_INFO C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
+            FROM MENU_AUTH A, MENU_INFO B
+            WHERE  B.Menu_NO > 0
+            AND    B.UPPER_MENU_NO = 0
+            AND    A.MENU_NO  = B.MENU_NO
+            AND    A.AUTHOR_CODE = #{authorCode}
+            ORDER BY B.MENU_ORDR
+        ]]>
+    </select>
+
+    <select id="selectMainMenuLeftByAuthor" parameterType="MenuManageVO" resultType="egovMap">
+        <![CDATA[
+            SELECT
+                   B.MENU_NO AS menuNo
+                 , B.MENU_ORDR AS menuOrdr
+                 , B.MENU_NM AS menuNm
+                 , B.UPPER_MENU_NO AS upperMenuId
+                 , B.RELATE_IMAGE_PATH AS relateImagePath
+                 , B.RELATE_IMAGE_NM AS relateImageNm
+                 , (SELECT C.URL FROM PROGRAM_INFO C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
+            FROM   MENU_AUTH A, MENU_INFO B
+            WHERE  A.MENU_NO  = B.MENU_NO
+            AND    A.AUTHOR_CODE =  #{authorCode}
+            ORDER BY B.MENU_ORDR
+        ]]>
+    </select>
+</mapper>
